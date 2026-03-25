@@ -4,12 +4,12 @@ defaultTargets = ["SutherlandNumberTheory", "sutherland-nt"]
 [[require]]
 name = "verso"
 git = "https://github.com/leanprover/verso"
-rev = "v4.28.0"
+rev = "v4.29.0-rc8"
 
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4"
-rev = "v4.28.0"
+rev = "recall-combined"
 
 [[lean_lib]]
 name = "SutherlandNumberTheory"

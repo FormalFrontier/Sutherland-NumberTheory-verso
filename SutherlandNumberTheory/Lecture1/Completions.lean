@@ -1,19 +1,22 @@
 import VersoManual
+import Mathlib.Tactic.Recall
 import Mathlib.RingTheory.Valuation.Basic
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.RingTheory.DiscreteValuationRing.TFAE
+import Mathlib.RingTheory.Valuation.Integers
 import Mathlib.RingTheory.Valuation.ValuationRing
-import Mathlib.RingTheory.LocalRing.Defs
-import Mathlib.RingTheory.LocalRing.ResidueField.Defs
+import Mathlib.RingTheory.LocalRing.Basic
+import Mathlib.RingTheory.LocalRing.ResidueField.Basic
+import Mathlib.RingTheory.Localization.AtPrime.Basic
+import Mathlib.RingTheory.Ideal.NatInt
 import Mathlib.RingTheory.DedekindDomain.Dvr
 import Mathlib.RingTheory.DedekindDomain.Basic
-import Mathlib.RingTheory.Int.Basic
 import Mathlib.Data.ZMod.QuotientRing
 import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.RingTheory.LaurentSeries
-import Mathlib.RingTheory.HahnSeries.Valuation
+import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.RingTheory.Noetherian.Basic
+import Mathlib.RingTheory.PrincipalIdealDomain
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -50,18 +53,23 @@ $$`A^{\times} = \{x \in k : v(x) = 0\},`
 We can partition the nonzero elements of $`k` according to the sign of their valuation. Elements with valuation zero are units in $`A`, elements with positive valuation are non-units in $`A`, and elements with negative valuation do not lie in $`A`, but their multiplicative inverses are non-units in $`A`. This leads to a more general notion of a valuation ring.
 
 ```lean
-/-- Definition 1.10: A valuation on a field in the additive convention. -/
-def valuation_def (k : Type*) [Field k]
-    (Γ : Type*) [LinearOrderedAddCommGroupWithTop Γ] :=
-  AddValuation k Γ
+/-- Definition 1.10: A valuation on a field in the
+additive convention. -/
+recall AddValuation (R : Type*) [Ring R]
+    (Γ₀ : Type*)
+    [LinearOrderedAddCommMonoidWithTop Γ₀] :
+    Type _
 
-/-- A discrete valuation ring: a local PID that is not a field. -/
-def dvr_def (A : Type*) [CommRing A] [IsDomain A] :=
-  IsDiscreteValuationRing A
+/-- Definition 1.10 (DVR). A discrete valuation ring
+is an integral domain that is a local PID and not a
+field. -/
+recall IsDiscreteValuationRing (R : Type*)
+    [CommRing R] [IsDomain R] : Prop
 
-/-- The valuation ring: for every x in Frac(A), either x ∈ A or x⁻¹ ∈ A. -/
-def valuationRing_of_field (A : Type*) [CommRing A] [IsDomain A] :=
-  ValuationRing A
+/-- Definition 1.10: The valuation ring: for every x
+in Frac(A), either x ∈ A or x⁻¹ ∈ A. -/
+recall ValuationRing (A : Type*)
+    [CommRing A] [IsDomain A] : Prop
 ```
 
 # Definition 1.11
@@ -87,8 +95,8 @@ is the unique maximal ideal of $`A` (and also the only nonzero prime ideal of $`
 
 ```lean
 /-- Definition 1.11: A valuation ring. -/
-def valuationRing_def (A : Type*) [CommRing A] [IsDomain A] :=
-  ValuationRing A
+recall ValuationRing (A : Type*)
+    [CommRing A] [IsDomain A] : Prop
 ```
 
 # Definition 1.12
@@ -99,9 +107,9 @@ number := false
 _Definition 1.12._ A _local ring_ is a commutative ring with a unique maximal ideal.
 
 ```lean
-/-- Definition 1.12: A local ring has a unique maximal ideal. -/
-def localRing_def (A : Type*) [CommRing A] :=
-  IsLocalRing A
+/-- Definition 1.12: A local ring has a unique maximal
+ideal. -/
+recall IsLocalRing (R : Type*) [Semiring R] : Prop
 ```
 
 # Definition 1.13
@@ -113,8 +121,8 @@ _Definition 1.13._ The _residue field_ of a local ring $`A` with maximal ideal $
 
 ```lean
 /-- Definition 1.13: The residue field A/𝔪. -/
-def residueField_def (A : Type*) [CommRing A] [IsLocalRing A] :=
-  IsLocalRing.ResidueField A
+recall IsLocalRing.ResidueField (A : Type*)
+    [CommRing A] [IsLocalRing A] : Type _
 ```
 
 We can now see how to determine the valuation $`v` corresponding to a discrete valuation ring $`A`. Given a discrete valuation ring $`A` with unique maximal ideal $`\mathfrak{m}`, we may define $`v \colon A \to \mathbb{Z}` by letting $`v(a)` be the unique integer $`n` for which $`(a) = \mathfrak{m}^n` and $`v(0) \coloneqq \infty`. Extending $`v` to the fraction field $`k` of $`A` via $`v(a/b) \coloneqq v(a) - v(b)` gives a discrete valuation $`v` on $`k` for which $`A = \{x \in k : v(x) \geq 0\}` is the corresponding valuation ring.
@@ -133,26 +141,43 @@ $$`\mathbb{Z}_{(p)} \coloneqq \left\{\frac{a}{b} : a, b \in \mathbb{Z},\, p \nmi
 with maximal ideal $`\mathfrak{m} = (p)`; this is the _localization_ of the ring $`\mathbb{Z}` at the prime ideal $`(p)`. The residue field is $`\mathbb{Z}_{(p)}/p\mathbb{Z}_{(p)} \simeq \mathbb{Z}/p\mathbb{Z} \simeq \mathbb{F}_p`.
 
 ```lean
+/-- The prime ideal (p) in ℤ is prime when p is
+a prime natural number. -/
+theorem primeIdealZ_isPrime (p : ℕ)
+    [hp : Fact (Nat.Prime p)] :
+    (Ideal.span {(p : ℤ)} : Ideal ℤ).IsPrime := by
+  rw [Ideal.span_singleton_prime
+    (by exact_mod_cast hp.out.ne_zero)]
+  exact Nat.prime_iff_prime_int.mp hp.out
+
 /-- Example 1.14: The localization ℤ_(p) is a DVR. -/
-theorem localization_at_prime_is_dvr (p : ℕ) [hp : Fact (Nat.Prime p)]
-    (I : Ideal ℤ) [I.IsPrime] (hI : I = Ideal.span {(p : ℤ)}) :
-    IsDiscreteValuationRing (Localization.AtPrime I) := by
+theorem localization_at_prime_is_dvr (p : ℕ)
+    [hp : Fact (Nat.Prime p)]
+    (I : Ideal ℤ) [I.IsPrime]
+    (hI : I = Ideal.span {(p : ℤ)}) :
+    IsDiscreteValuationRing
+      (Localization.AtPrime I) := by
   have hI_ne_bot : I ≠ ⊥ := by
     rw [hI, ne_eq, Ideal.span_singleton_eq_bot]
     exact mod_cast hp.out.ne_zero
   exact IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain ℤ hI_ne_bot _
 
-/-- The residue field of ℤ_(p) is isomorphic to ℤ/pℤ. -/
-theorem localization_at_prime_residue_field (p : ℕ) [hp : Fact (Nat.Prime p)]
-    (I : Ideal ℤ) [I.IsPrime] (hI : I = Ideal.span {(p : ℤ)}) :
-    Nonempty (IsLocalRing.ResidueField (Localization.AtPrime I) ≃+* ZMod p) := by
+/-- Example 1.14: The residue field of ℤ_(p) is
+isomorphic to ℤ/pℤ ≃ 𝔽_p. -/
+theorem localization_at_prime_residue_field (p : ℕ)
+    [hp : Fact (Nat.Prime p)]
+    (I : Ideal ℤ) [I.IsPrime]
+    (hI : I = Ideal.span {(p : ℤ)}) :
+    Nonempty (IsLocalRing.ResidueField
+      (Localization.AtPrime I) ≃+* ZMod p) := by
   subst hI
   haveI : (Ideal.span {(p : ℤ)}).IsMaximal :=
     Ideal.IsPrime.isMaximal inferInstance (by
       rw [ne_eq, Ideal.span_singleton_eq_bot]
       exact mod_cast hp.out.ne_zero)
   exact ⟨(IsLocalization.AtPrime.equivQuotMaximalIdeal
-    (Ideal.span {(p : ℤ)}) (Localization.AtPrime _)).symm.trans
+    (Ideal.span {(p : ℤ)})
+    (Localization.AtPrime _)).symm.trans
     (Int.quotientSpanNatEquivZMod p)⟩
 ```
 
@@ -168,14 +193,18 @@ $$`v\!\left(\sum_{n \geq n_0} a_n t^n\right) = n_0,`
 where $`a_{n_0} \neq 0`, has valuation ring $`k[[t]]`, the power series ring over $`k`. For $`f \in k((t))^{\times}`, the valuation $`v(f) \in \mathbb{Z}` is the _order of vanishing_ of $`f` at zero. For every $`\alpha \in k` one can similarly define a valuation $`v_{\alpha}` on $`k` as the order of vanishing of $`f` at $`\alpha` by taking the Laurent series expansion of $`f` about $`\alpha`.
 
 ```lean
-/-- Example 1.15: The power series ring k[[t]] is a DVR. -/
-theorem powerSeries_is_dvr (k : Type*) [Field k] :
-    IsDiscreteValuationRing (PowerSeries k) :=
-  inferInstance
+open PowerSeries in
+set_option backward.isDefEq.respectTransparency false in
+/-- Example 1.15: k⟦X⟧ is a DVR for any field k. -/
+example {k : Type*} [Field k] :
+    IsDiscreteValuationRing k⟦X⟧ := inferInstance
 
-/-- The power series ring is also a valuation ring. -/
-theorem laurentSeries_valuation_ring (k : Type*) [Field k] :
-    ValuationRing (PowerSeries k) :=
+open PowerSeries in
+set_option backward.isDefEq.respectTransparency false in
+/-- k⟦X⟧ is also a valuation ring. -/
+theorem laurentSeries_valuation_ring
+    (k : Type*) [Field k] :
+    ValuationRing k⟦X⟧ :=
   inferInstance
 ```
 
@@ -209,92 +238,137 @@ _Theorem 1.16._ _For an integral domain $`A`, the following are equivalent:_
 _Proof._ See \[1, §23\] or \[2, §9\]. $`\square`
 
 ```lean
-/-- Theorem 1.16: Seven equivalent characterizations of DVRs. -/
-theorem dvr_tfae (A : Type*) [CommRing A] [IsDomain A] :
+/-- Theorem 1.16: Seven equivalent characterizations
+of DVRs. -/
+theorem sutherland_theorem1_16
+    (A : Type*) [CommRing A] [IsDomain A] :
     List.TFAE [
       IsDiscreteValuationRing A,
-      IsNoetherianRing A ∧ ValuationRing A ∧ ¬IsField A,
-      IsLocalRing A ∧ IsPrincipalIdealRing A ∧ ¬IsField A,
-      IsIntegrallyClosed A ∧ IsNoetherianRing A ∧ IsLocalRing A ∧
+      IsNoetherianRing A ∧ ValuationRing A ∧
+        ¬IsField A,
+      IsLocalRing A ∧ IsPrincipalIdealRing A ∧
+        ¬IsField A,
+      IsIntegrallyClosed A ∧ IsNoetherianRing A ∧
+        IsLocalRing A ∧
         ∃! P : Ideal A, P ≠ ⊥ ∧ P.IsPrime,
-      IsNoetherianRing A ∧ IsLocalRing A ∧ ¬IsField A ∧
-        ∀ I : Ideal A, I ≠ ⊥ → ∃ (m : Ideal A) (n : ℕ), m.IsMaximal ∧ I = m ^ n,
       IsNoetherianRing A ∧ IsLocalRing A ∧
-        ∃ m : Ideal A, m.IsMaximal ∧ m ≠ ⊥ ∧ m.IsPrincipal,
-      IsDedekindDomain A ∧ IsLocalRing A ∧ ¬IsField A
+        ¬IsField A ∧
+        ∀ I : Ideal A, I ≠ ⊥ →
+          ∃ (m : Ideal A) (n : ℕ),
+            m.IsMaximal ∧ I = m ^ n,
+      IsNoetherianRing A ∧ IsLocalRing A ∧
+        ∃ m : Ideal A,
+          m.IsMaximal ∧ m ≠ ⊥ ∧ m.IsPrincipal,
+      IsDedekindDomain A ∧ IsLocalRing A ∧
+        ¬IsField A
     ] := by
+  -- 1 → 2
   tfae_have 1 → 2
-  | h => ⟨inferInstance, inferInstance, h.not_isField⟩
+  | h => ⟨inferInstance, inferInstance,
+    h.not_isField⟩
+  -- 2 → 1
   tfae_have 2 → 1
   | ⟨hN, hV, hF⟩ => by
     haveI := hN; haveI := hV
     haveI : IsLocalRing A := inferInstance
     have hF' : ¬IsField A := hF
-    exact ((IsDiscreteValuationRing.TFAE A hF').out 1 0).mp hV
+    exact ((IsDiscreteValuationRing.TFAE A hF').out
+      1 0).mp hV
+  -- 1 → 3
   tfae_have 1 → 3
-  | h => ⟨inferInstance, inferInstance, h.not_isField⟩
+  | h => ⟨inferInstance, inferInstance,
+    h.not_isField⟩
+  -- 3 → 1
   tfae_have 3 → 1
   | ⟨hL, hP, hF⟩ => by
     haveI := hL; haveI := hP
-    exact { not_a_field' := isField_iff_maximalIdeal_eq.not.mp hF }
+    exact { not_a_field' :=
+      isField_iff_maximalIdeal_eq.not.mp hF }
+  -- 1 → 4
   tfae_have 1 → 4
   | h => by
     haveI := h
-    refine ⟨inferInstance, inferInstance, inferInstance, ?_⟩
+    refine ⟨inferInstance, inferInstance,
+      inferInstance, ?_⟩
     have hF := h.not_isField
-    have h_tfae := IsDiscreteValuationRing.TFAE A hF
-    have h03 : IsIntegrallyClosed A ∧ ∃! P : Ideal A, P ≠ ⊥ ∧ P.IsPrime :=
+    have h_tfae :=
+      IsDiscreteValuationRing.TFAE A hF
+    have h03 : IsIntegrallyClosed A ∧
+        ∃! P : Ideal A, P ≠ ⊥ ∧ P.IsPrime :=
       (h_tfae.out 0 3).mp h
     exact h03.2
+  -- 4 → 1
   tfae_have 4 → 1
   | ⟨hIC, hN, hL, huniq⟩ => by
     haveI := hIC; haveI := hN; haveI := hL
     have ⟨P, ⟨hPbot, hPprime⟩, _⟩ := huniq
     have hF : ¬IsField A := fun hF =>
-      hPbot (le_bot_iff.mp ((le_maximalIdeal hPprime.ne_top).trans
+      hPbot (le_bot_iff.mp
+        ((le_maximalIdeal hPprime.ne_top).trans
         (isField_iff_maximalIdeal_eq.mp hF).le))
-    exact ((IsDiscreteValuationRing.TFAE A hF).out 3 0).mp
-      (show IsIntegrallyClosed A ∧ ∃! P : Ideal A, P ≠ ⊥ ∧ P.IsPrime from ⟨hIC, huniq⟩)
+    exact ((IsDiscreteValuationRing.TFAE A hF).out
+      3 0).mp
+      (show IsIntegrallyClosed A ∧
+        ∃! P : Ideal A, P ≠ ⊥ ∧ P.IsPrime from
+        ⟨hIC, huniq⟩)
+  -- 1 → 5
   tfae_have 1 → 5
   | h => by
     haveI := h
     have hF := h.not_isField
     refine ⟨inferInstance, inferInstance, hF, ?_⟩
-    have h6 := ((IsDiscreteValuationRing.TFAE A hF).out 0 6).mp h
+    have h6 :=
+      ((IsDiscreteValuationRing.TFAE A hF).out
+        0 6).mp h
     intro I hI
     obtain ⟨n, hn⟩ := h6 I hI
-    exact ⟨maximalIdeal A, n, maximalIdeal.isMaximal A, hn⟩
+    exact ⟨maximalIdeal A, n,
+      maximalIdeal.isMaximal A, hn⟩
+  -- 5 → 1
   tfae_have 5 → 1
   | ⟨hN, hL, hF, hall⟩ => by
     haveI := hN; haveI := hL
-    have h6 : ∀ I : Ideal A, I ≠ ⊥ → ∃ n : ℕ, I = maximalIdeal A ^ n := by
+    have h6 : ∀ I : Ideal A, I ≠ ⊥ →
+        ∃ n : ℕ, I = maximalIdeal A ^ n := by
       intro I hI
       obtain ⟨m, n, hm, hIn⟩ := hall I hI
       rw [eq_maximalIdeal hm] at hIn
       exact ⟨n, hIn⟩
-    exact ((IsDiscreteValuationRing.TFAE A hF).out 6 0).mp h6
+    exact ((IsDiscreteValuationRing.TFAE A hF).out
+      6 0).mp h6
+  -- 1 → 6
   tfae_have 1 → 6
   | h => by
     haveI := h
     have hF := h.not_isField
-    refine ⟨inferInstance, inferInstance, maximalIdeal A, maximalIdeal.isMaximal A,
+    refine ⟨inferInstance, inferInstance,
+      maximalIdeal A, maximalIdeal.isMaximal A,
       IsDiscreteValuationRing.not_a_field A, ?_⟩
-    exact ((IsDiscreteValuationRing.TFAE A hF).out 0 4).mp h
+    exact ((IsDiscreteValuationRing.TFAE A hF).out
+      0 4).mp h
+  -- 6 → 1
   tfae_have 6 → 1
   | ⟨hN, hL, m, hmax, hne, hprinc⟩ => by
     haveI := hN; haveI := hL
-    have hm_eq : m = maximalIdeal A := eq_maximalIdeal hmax
+    have hm_eq : m = maximalIdeal A :=
+      eq_maximalIdeal hmax
     subst hm_eq
-    have hF : ¬IsField A := isField_iff_maximalIdeal_eq.not.mpr hne
-    exact ((IsDiscreteValuationRing.TFAE A hF).out 4 0).mp hprinc
+    have hF : ¬IsField A :=
+      isField_iff_maximalIdeal_eq.not.mpr hne
+    exact ((IsDiscreteValuationRing.TFAE A hF).out
+      4 0).mp hprinc
+  -- 1 → 7
   tfae_have 1 → 7
   | h => by
     haveI := h
-    exact ⟨inferInstance, inferInstance, h.not_isField⟩
+    exact ⟨inferInstance, inferInstance,
+      h.not_isField⟩
+  -- 7 → 1
   tfae_have 7 → 1
   | ⟨hD, hL, hF⟩ => by
     haveI := hD; haveI := hL
-    exact { not_a_field' := isField_iff_maximalIdeal_eq.not.mp hF }
+    exact { not_a_field' :=
+      isField_iff_maximalIdeal_eq.not.mp hF }
   tfae_finish
 ```
 
