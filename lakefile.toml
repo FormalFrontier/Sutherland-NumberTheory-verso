@@ -1,0 +1,19 @@
+name = "sutherland-nt"
+defaultTargets = ["SutherlandNumberTheory", "sutherland-nt"]
+
+[[require]]
+name = "verso"
+git = "https://github.com/leanprover/verso"
+rev = "v4.28.0"
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.28.0"
+
+[[lean_lib]]
+name = "SutherlandNumberTheory"
+
+[[lean_exe]]
+name = "sutherland-nt"
+root = "Main"

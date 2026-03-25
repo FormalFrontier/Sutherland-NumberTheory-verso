@@ -1,0 +1,6 @@
+/.lake
+/lake-packages
+/lake-manifest.json
+/_out
+/build
+.DS_Store
