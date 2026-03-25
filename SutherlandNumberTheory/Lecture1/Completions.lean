@@ -67,6 +67,11 @@ recall ValuationRing (A : Type*)
     [CommRing A] [IsDomain A] : Prop
 ```
 
+# Valuation ring structure
+%%%
+number := false
+%%%
+
 It is easy to verify that every valuation ring $`A` is a in fact a ring, and even an integral domain (if $`x` and $`y` are nonzero then $`v(xy) = v(x) + v(y) \neq \infty`, so $`xy \neq 0`), with $`k` as its fraction field. Notice that for any $`x \in k^{\times}` we have $`v(1/x) = v(1) - v(x) = -v(x)`, so at least one of $`x` and $`1/x` has nonnegative valuation and lies in $`A`. It follows that $`x \in A` is invertible (in $`A`) if and only if $`v(x) = 0`, hence the unit group of $`A` is
 
 $$`A^{\times} = \{x \in k : v(x) = 0\},`
@@ -85,6 +90,11 @@ _Definition 1.11._ A _valuation ring_ is an integral domain $`A` with fraction f
 recall ValuationRing (A : Type*)
     [CommRing A] [IsDomain A] : Prop
 ```
+
+# Uniformizers and ideals
+%%%
+number := false
+%%%
 
 Let us now suppose that the integral domain $`A` is the valuation ring of its fraction field with respect to some discrete valuation $`v` (which we shall see is uniquely determined). Any element $`\pi \in A` for which $`v(\pi) = 1` is called a _uniformizer_. Uniformizers exist, since $`v(A) = \mathbb{Z}_{\geq 0}`. If we fix a uniformizer $`\pi`, every $`x \in k^{\times}` can be written uniquely as
 
@@ -125,6 +135,11 @@ _Definition 1.13._ The _residue field_ of a local ring $`A` with maximal ideal $
 recall IsLocalRing.ResidueField (A : Type*)
     [CommRing A] [IsLocalRing A] : Type _
 ```
+
+# Determining the valuation
+%%%
+number := false
+%%%
 
 We can now see how to determine the valuation $`v` corresponding to a discrete valuation ring $`A`. Given a discrete valuation ring $`A` with unique maximal ideal $`\mathfrak{m}`, we may define $`v \colon A \to \mathbb{Z}` by letting $`v(a)` be the unique integer $`n` for which $`(a) = \mathfrak{m}^n` and $`v(0) \coloneqq \infty`. Extending $`v` to the fraction field $`k` of $`A` via $`v(a/b) \coloneqq v(a) - v(b)` gives a discrete valuation $`v` on $`k` for which $`A = \{x \in k : v(x) \geq 0\}` is the corresponding valuation ring.
 
@@ -208,6 +223,11 @@ theorem laurentSeries_valuation_ring
     ValuationRing k⟦X⟧ :=
   inferInstance
 ```
+
+# Properties of DVRs
+%%%
+number := false
+%%%
 
 Discrete valuation rings are in many respects the nicest rings that are not fields. In addition to being an integral domain, every discrete valuation ring $`A` enjoys the following properties:
 
@@ -372,5 +392,10 @@ theorem sutherland_theorem1_16
       isField_iff_maximalIdeal_eq.not.mp hF }
   tfae_finish
 ```
+
+# Integrality
+%%%
+number := false
+%%%
 
 Integrality plays a key role in number theory, so it is worth discussing it in more detail.
