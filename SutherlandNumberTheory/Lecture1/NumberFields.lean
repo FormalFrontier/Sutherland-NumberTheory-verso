@@ -18,6 +18,7 @@ set_option verso.code.warnLineLength 90
 #doc (Manual) "Number Fields and Rings of Integers" =>
 %%%
 tag := "number-fields"
+file := some "number-fields"
 number := false
 %%%
 

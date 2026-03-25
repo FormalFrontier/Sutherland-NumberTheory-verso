@@ -11,11 +11,13 @@ open Verso.Genre Manual
 #doc (Manual) "Lecture 1: Absolute Values and Discrete Valuations" =>
 %%%
 tag := "lecture-1"
+file := some "lecture-1"
 number := false
 %%%
 
 # Introduction
 %%%
+file := some "introduction"
 number := false
 %%%
 
@@ -43,6 +45,7 @@ Before we begin, let us note the following.
 
 # Remark 1.1
 %%%
+file := some "remark-1-1"
 number := false
 %%%
 

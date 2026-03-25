@@ -22,6 +22,7 @@ set_option verso.code.warnLineLength 90
 #doc (Manual) "Integral Closure" =>
 %%%
 tag := "integral-closure"
+file := some "integral-closure"
 number := false
 %%%
 

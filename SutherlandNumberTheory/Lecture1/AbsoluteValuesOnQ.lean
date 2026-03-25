@@ -15,6 +15,7 @@ set_option verso.code.warnLineLength 90
 #doc (Manual) "Absolute Values on ℚ" =>
 %%%
 tag := "absolute-values-on-q"
+file := some "absolute-values-on-q"
 number := false
 %%%
 

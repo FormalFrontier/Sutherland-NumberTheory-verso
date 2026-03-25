@@ -27,6 +27,7 @@ open IsLocalRing
 #doc (Manual) "Completions and Discrete Valuations" =>
 %%%
 tag := "completions"
+file := some "completions"
 number := false
 %%%
 
