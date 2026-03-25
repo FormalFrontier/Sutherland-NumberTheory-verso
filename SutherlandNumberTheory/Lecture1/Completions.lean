@@ -47,12 +47,6 @@ $$`A := \{x \in k : v(x) \geq 0\},`
 
 is the _valuation ring_ of $`k` (with respect to $`v`). A _discrete valuation ring_ (DVR) is an integral domain that is the valuation ring of its fraction field with respect to a discrete valuation; such a ring $`A` cannot be a field, since $`v(\operatorname{Frac} A) = \mathbb{Z} \neq \mathbb{Z}_{\geq 0} = v(A)`.
 
-It is easy to verify that every valuation ring $`A` is a in fact a ring, and even an integral domain (if $`x` and $`y` are nonzero then $`v(xy) = v(x) + v(y) \neq \infty`, so $`xy \neq 0`), with $`k` as its fraction field. Notice that for any $`x \in k^{\times}` we have $`v(1/x) = v(1) - v(x) = -v(x)`, so at least one of $`x` and $`1/x` has nonnegative valuation and lies in $`A`. It follows that $`x \in A` is invertible (in $`A`) if and only if $`v(x) = 0`, hence the unit group of $`A` is
-
-$$`A^{\times} = \{x \in k : v(x) = 0\},`
-
-We can partition the nonzero elements of $`k` according to the sign of their valuation. Elements with valuation zero are units in $`A`, elements with positive valuation are non-units in $`A`, and elements with negative valuation do not lie in $`A`, but their multiplicative inverses are non-units in $`A`. This leads to a more general notion of a valuation ring.
-
 ```lean
 /-- Definition 1.10: A valuation on a field in the
 additive convention. -/
@@ -73,12 +67,24 @@ recall ValuationRing (A : Type*)
     [CommRing A] [IsDomain A] : Prop
 ```
 
+It is easy to verify that every valuation ring $`A` is a in fact a ring, and even an integral domain (if $`x` and $`y` are nonzero then $`v(xy) = v(x) + v(y) \neq \infty`, so $`xy \neq 0`), with $`k` as its fraction field. Notice that for any $`x \in k^{\times}` we have $`v(1/x) = v(1) - v(x) = -v(x)`, so at least one of $`x` and $`1/x` has nonnegative valuation and lies in $`A`. It follows that $`x \in A` is invertible (in $`A`) if and only if $`v(x) = 0`, hence the unit group of $`A` is
+
+$$`A^{\times} = \{x \in k : v(x) = 0\},`
+
+We can partition the nonzero elements of $`k` according to the sign of their valuation. Elements with valuation zero are units in $`A`, elements with positive valuation are non-units in $`A`, and elements with negative valuation do not lie in $`A`, but their multiplicative inverses are non-units in $`A`. This leads to a more general notion of a valuation ring.
+
 # Definition 1.11
 %%%
 number := false
 %%%
 
 _Definition 1.11._ A _valuation ring_ is an integral domain $`A` with fraction field $`k` with the property that for every $`x \in k`, either $`x \in A` or $`x^{-1} \in A`.
+
+```lean
+/-- Definition 1.11: A valuation ring. -/
+recall ValuationRing (A : Type*)
+    [CommRing A] [IsDomain A] : Prop
+```
 
 Let us now suppose that the integral domain $`A` is the valuation ring of its fraction field with respect to some discrete valuation $`v` (which we shall see is uniquely determined). Any element $`\pi \in A` for which $`v(\pi) = 1` is called a _uniformizer_. Uniformizers exist, since $`v(A) = \mathbb{Z}_{\geq 0}`. If we fix a uniformizer $`\pi`, every $`x \in k^{\times}` can be written uniquely as
 
@@ -93,12 +99,6 @@ for some integer $`n \geq 0`. Moreover, the ideal $`(\pi^n)` depends only on $`n
 $$`\mathfrak{m} = (\pi) = \{a \in A : v(a) > 0\}`
 
 is the unique maximal ideal of $`A` (and also the only nonzero prime ideal of $`A`).
-
-```lean
-/-- Definition 1.11: A valuation ring. -/
-recall ValuationRing (A : Type*)
-    [CommRing A] [IsDomain A] : Prop
-```
 
 # Definition 1.12
 %%%
