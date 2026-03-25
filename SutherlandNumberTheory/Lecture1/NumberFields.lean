@@ -10,6 +10,8 @@ import Mathlib.Data.Real.Sqrt
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
 
+set_option verso.code.warnLineLength 90
+
 #doc (Manual) "Number Fields and Rings of Integers" =>
 %%%
 tag := "number-fields"
@@ -84,7 +86,8 @@ theorem integral_iff_minpoly_over_base
     obtain ⟨p, hp_map, -, hp_monic⟩ :=
       Polynomial.lifts_and_degree_eq_and_monic hlifts (minpoly.monic hα)
     refine ⟨p, hp_monic, ?_⟩
-    have h1 : Polynomial.aeval (R := A) α p = Polynomial.aeval (R := K) α (minpoly K α) := by
+    have h1 : Polynomial.aeval (R := A) α p =
+        Polynomial.aeval (R := K) α (minpoly K α) := by
       rw [← Polynomial.aeval_map_algebraMap K α p, hp_map]
     rw [minpoly.aeval] at h1
     exact_mod_cast h1

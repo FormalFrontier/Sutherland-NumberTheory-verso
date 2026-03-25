@@ -11,6 +11,8 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
 
+set_option verso.code.warnLineLength 90
+
 #doc (Manual) "Absolute Values" =>
 %%%
 tag := "absolute-values"
@@ -72,7 +74,8 @@ theorem trivialAbsoluteValue_apply_ne_zero (k : Type*) [DecidableEq k] [Field k]
 theorem trivialAbsoluteValue_isNonarchimedean (k : Type*) [DecidableEq k] [Field k] :
     IsNonarchimedean (trivialAbsoluteValue k) := by
   intro x y
-  change AbsoluteValue.trivial (x + y) ≤ max (AbsoluteValue.trivial x) (AbsoluteValue.trivial y)
+  change AbsoluteValue.trivial (x + y) ≤
+    max (AbsoluteValue.trivial x) (AbsoluteValue.trivial y)
   by_cases hx : x = 0
   · simp [AbsoluteValue.trivial, hx]
   · by_cases hy : y = 0

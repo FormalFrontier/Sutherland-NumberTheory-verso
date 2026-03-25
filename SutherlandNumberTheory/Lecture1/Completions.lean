@@ -17,6 +17,8 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
+
+set_option verso.code.warnLineLength 90
 open IsLocalRing
 
 #doc (Manual) "Completions and Discrete Valuations" =>
@@ -49,7 +51,8 @@ We can partition the nonzero elements of $`k`$ according to the sign of their va
 
 ```lean
 /-- Definition 1.10: A valuation on a field in the additive convention. -/
-def valuation_def (k : Type*) [Field k] (Γ : Type*) [LinearOrderedAddCommGroupWithTop Γ] :=
+def valuation_def (k : Type*) [Field k]
+    (Γ : Type*) [LinearOrderedAddCommGroupWithTop Γ] :=
   AddValuation k Γ
 
 /-- A discrete valuation ring: a local PID that is not a field. -/

@@ -8,6 +8,8 @@ import Mathlib.Algebra.BigOperators.Finprod
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
 
+set_option verso.code.warnLineLength 90
+
 #doc (Manual) "Absolute Values on ℚ" =>
 %%%
 tag := "absolute-values-on-q"
@@ -105,7 +107,8 @@ private lemma fta_prod_nat (n : ℕ) (hn : n ≠ 0) :
 
 private lemma fta_prod_rat (n : ℕ) (hn : n ≠ 0) :
     ∏ p ∈ n.primeFactors, (p : ℚ) ^ padicValNat p n = (n : ℚ) := by
-  have h : ∀ p ∈ n.primeFactors, (p : ℚ) ^ padicValNat p n = ((p ^ padicValNat p n : ℕ) : ℚ) :=
+  have h : ∀ p ∈ n.primeFactors,
+      (p : ℚ) ^ padicValNat p n = ((p ^ padicValNat p n : ℕ) : ℚ) :=
     fun p _ => (Nat.cast_pow p (padicValNat p n)).symm
   rw [Finset.prod_congr rfl h, ← Nat.cast_prod, Nat.cast_inj]
   exact fta_prod_nat n hn
@@ -129,12 +132,14 @@ theorem product_formula (q : ℚ) (hq : q ≠ 0) :
     hcop.disjoint_primeFactors
   rw [hS, Finset.prod_union hdisj]
   have hprod_a : ∏ p ∈ a.primeFactors, padicNorm p q = (a : ℚ)⁻¹ := by
-    have h_val : ∀ p ∈ a.primeFactors, padicNorm p q = (p : ℚ) ^ (-(padicValNat p a : ℤ)) := by
+    have h_val : ∀ p ∈ a.primeFactors,
+        padicNorm p q = (p : ℚ) ^ (-(padicValNat p a : ℤ)) := by
       intro p hp
       have hp_prime := Nat.prime_of_mem_primeFactors hp
       haveI : Fact (Nat.Prime p) := ⟨hp_prime⟩
       have hp_ndvd_b : ¬(p ∣ b) :=
-        fun h => Finset.disjoint_left.mp hdisj hp (Nat.mem_primeFactors.mpr ⟨hp_prime, h, hb⟩)
+        fun h => Finset.disjoint_left.mp hdisj hp
+          (Nat.mem_primeFactors.mpr ⟨hp_prime, h, hb⟩)
       rw [padicNorm.eq_zpow_of_nonzero hq]
       congr 1
       change -((padicValInt p q.num : ℤ) - (padicValNat p b : ℤ)) = -(padicValNat p a : ℤ)
@@ -143,12 +148,14 @@ theorem product_formula (q : ℚ) (hq : q ≠ 0) :
     simp_rw [zpow_neg, Finset.prod_inv_distrib, zpow_natCast]
     rw [fta_prod_rat a ha]
   have hprod_b : ∏ p ∈ b.primeFactors, padicNorm p q = (b : ℚ) := by
-    have h_val : ∀ p ∈ b.primeFactors, padicNorm p q = (p : ℚ) ^ (padicValNat p b : ℤ) := by
+    have h_val : ∀ p ∈ b.primeFactors,
+        padicNorm p q = (p : ℚ) ^ (padicValNat p b : ℤ) := by
       intro p hp
       have hp_prime := Nat.prime_of_mem_primeFactors hp
       haveI : Fact (Nat.Prime p) := ⟨hp_prime⟩
       have hp_ndvd_a : ¬(p ∣ a) :=
-        fun h => Finset.disjoint_right.mp hdisj hp (Nat.mem_primeFactors.mpr ⟨hp_prime, h, ha⟩)
+        fun h => Finset.disjoint_right.mp hdisj hp
+          (Nat.mem_primeFactors.mpr ⟨hp_prime, h, ha⟩)
       rw [padicNorm.eq_zpow_of_nonzero hq]
       congr 1
       change -((padicValInt p q.num : ℤ) - (padicValNat p b : ℤ)) = (padicValNat p b : ℤ)

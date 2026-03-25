@@ -13,6 +13,8 @@ import Mathlib.NumberTheory.Real.Irrational
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
 
+set_option verso.code.warnLineLength 90
+
 #doc (Manual) "Integral Closure" =>
 %%%
 tag := "integral-closure"
@@ -252,7 +254,8 @@ theorem Z_adjoin_sqrt5_not_integrally_closed :
   -- Lift S ↪ ℝ to FractionRing S →+* ℝ
   have h_inj : Function.Injective (S.subtype : ↥S →+* ℝ) := Subtype.val_injective
   set ι : FractionRing ↥S →+* ℝ :=
-    IsFractionRing.lift (A := ↥S) (K := FractionRing ↥S) (g := S.subtype) h_inj with hι_def
+    IsFractionRing.lift (A := ↥S) (K := FractionRing ↥S)
+      (g := S.subtype) h_inj with hι_def
   -- ι maps algebraMap r to r.val
   have hι_alg : ∀ r : ↥S, ι (algebraMap ↥S (FractionRing ↥S) r) = (r : ℝ) :=
     fun r => IsFractionRing.lift_algebraMap h_inj r
