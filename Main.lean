@@ -23,7 +23,7 @@ def customCss : String := "
   --verso-code-const-color: #5a4a3a;
 }
 
-/* Header bar */
+/* ===== Header bar ===== */
 header {
   background: linear-gradient(135deg, #2d6a4f 0%, #3a7d5c 100%) !important;
   box-shadow: 0 2px 8px rgba(45, 106, 79, 0.3) !important;
@@ -32,12 +32,12 @@ header {
   color: white !important;
 }
 
-/* Section headings */
+/* ===== Section headings ===== */
 h1, h2, h3 {
   color: #2d6a4f;
 }
 
-/* Links */
+/* ===== Links ===== */
 a {
   color: #40916c;
 }
@@ -45,7 +45,7 @@ a:hover {
   color: #e76f51;
 }
 
-/* TOC sidebar styling */
+/* ===== TOC sidebar ===== */
 #toc .split-toc .title a {
   color: #2d6a4f;
 }
@@ -54,7 +54,7 @@ a:hover {
   font-weight: bold;
 }
 
-/* Prev/next navigation */
+/* ===== Prev/next navigation ===== */
 .prev-next-buttons a {
   color: #e76f51 !important;
   font-weight: 600;
@@ -66,13 +66,85 @@ a:hover {
   color: #e76f51;
 }
 
-/* Lean code blocks */
+/* ===== Definition / Theorem / Lemma boxes ===== */
+
+/* Definitions: green accent */
+section:has(> h2[id*='Definition']) {
+  background: #f5faf7;
+  border-left: 4px solid #2d6a4f;
+  padding: 0.8rem 1.2rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+section:has(> h2[id*='Definition']) > h2 {
+  margin-top: 0.3rem;
+}
+
+/* Theorems and Propositions: orange accent */
+section:has(> h2[id*='Theorem']),
+section:has(> h2[id*='Proposition']) {
+  background: #fef6f0;
+  border-left: 4px solid #e76f51;
+  padding: 0.8rem 1.2rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+section:has(> h2[id*='Theorem']) > h2,
+section:has(> h2[id*='Proposition']) > h2 {
+  margin-top: 0.3rem;
+  color: #c05630;
+}
+
+/* Lemmas and Corollaries: muted green accent */
+section:has(> h2[id*='Lemma']),
+section:has(> h2[id*='Corollary']) {
+  background: #f7faf5;
+  border-left: 4px solid #74b49b;
+  padding: 0.8rem 1.2rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+section:has(> h2[id*='Lemma']) > h2,
+section:has(> h2[id*='Corollary']) > h2 {
+  margin-top: 0.3rem;
+}
+
+/* Examples: warm neutral accent */
+section:has(> h2[id*='Example']) {
+  background: #faf9f6;
+  border-left: 4px solid #c9b99a;
+  padding: 0.8rem 1.2rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+section:has(> h2[id*='Example']) > h2 {
+  margin-top: 0.3rem;
+  color: #8a7a5a;
+}
+
+/* Remarks: subtle grey */
+section:has(> h2[id*='Remark']) {
+  background: #f8f8f8;
+  border-left: 4px solid #b0b0b0;
+  padding: 0.8rem 1.2rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+section:has(> h2[id*='Remark']) > h2 {
+  margin-top: 0.3rem;
+  color: #666;
+}
+
+/* ===== Lean code blocks: more separation from prose ===== */
 code.hl.lean.block {
   background: #fef8f0 !important;
   border-left: 3px solid #40916c;
   padding: 0.75rem 1rem !important;
   border-radius: 4px;
   display: block;
+  margin: 1.5rem 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  font-size: 0.88em;
 }
 
 /* Doc comments in code blocks */
@@ -80,12 +152,24 @@ code.hl.lean.block {
   color: #40916c !important;
 }
 
-/* Inline code */
+/* ===== Display math breathing room ===== */
+code.math.display {
+  display: block;
+  margin: 1.2rem 0;
+}
+
+/* ===== QED symbol: right-aligned ===== */
+.qed-square {
+  float: right;
+  margin-left: 1em;
+}
+
+/* ===== Inline code ===== */
 code.math.inline, code.math.display {
   color: #3a3a3a;
 }
 
-/* Permalink widget */
+/* ===== Permalink widget ===== */
 .permalink-widget a {
   color: #b7d4c0 !important;
 }
@@ -93,7 +177,7 @@ code.math.inline, code.math.display {
   color: #e76f51 !important;
 }
 
-/* Search box */
+/* ===== Search box ===== */
 input[type='search'] {
   border-color: #b7d4c0 !important;
 }
@@ -101,6 +185,68 @@ input[type='search']:focus {
   border-color: #40916c !important;
   outline-color: #40916c;
 }
+
+/* ===== Home page title section ===== */
+.titlepage {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e8f0e8;
+}
+.titlepage h1 {
+  font-size: 2.4rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.3rem;
+}
+.titlepage .authors {
+  font-size: 1.15rem;
+  color: #666;
+  margin-bottom: 1.2rem;
+}
+.titlepage + p,
+.titlepage ~ p {
+  max-width: 38rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Home page Contents heading */
+.titlepage ~ section > h2 {
+  text-align: center;
+  margin-top: 2rem;
+}
+.titlepage ~ section .section-toc {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+.titlepage ~ section .section-toc li {
+  padding: 0.4rem 0;
+}
+.titlepage ~ section .section-toc a {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+"
+
+def customJs : String := "
+// Right-align QED squares
+document.addEventListener('DOMContentLoaded', () => {
+  function markQedSquares() {
+    document.querySelectorAll('.math.inline').forEach(el => {
+      var t = el.textContent.replace(/\\s/g, '');
+      if (/^(\\\\square|□)+$/.test(t)) {
+        el.classList.add('qed-square');
+      }
+    });
+  }
+  markQedSquares();
+  // Re-check after KaTeX renders
+  setTimeout(markQedSquares, 500);
+});
 "
 
 def config : RenderConfig where
@@ -109,5 +255,6 @@ def config : RenderConfig where
   emitHtmlMulti := .immediately
   htmlDepth := 2
   extraCss := [customCss]
+  extraJs := [customJs]
 
 def main := manualMain (%doc SutherlandNumberTheory) (config := config)
