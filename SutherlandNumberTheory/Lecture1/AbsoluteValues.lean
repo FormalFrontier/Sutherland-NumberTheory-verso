@@ -26,15 +26,15 @@ We begin with the general notion of an absolute value on a field; a reference fo
 number := false
 %%%
 
-_Definition 1.2._ An _absolute value_ on a field $`k`$ is a map $`\lvert \cdot \rvert \colon k \to \mathbb{R}_{\geq 0}`$ such that for all $`x, y \in k`$ the following hold:
+_Definition 1.2._ An _absolute value_ on a field $`k` is a map $`\lvert \cdot \rvert \colon k \to \mathbb{R}_{\geq 0}` such that for all $`x, y \in k` the following hold:
 
-1. $`\lvert x \rvert = 0`$ if and only if $`x = 0`$;
-2. $`\lvert xy \rvert = \lvert x \rvert \lvert y \rvert`$;
-3. $`\lvert x + y \rvert \leq \lvert x \rvert + \lvert y \rvert`$.
+1. $`\lvert x \rvert = 0` if and only if $`x = 0`;
+2. $`\lvert xy \rvert = \lvert x \rvert \lvert y \rvert`;
+3. $`\lvert x + y \rvert \leq \lvert x \rvert + \lvert y \rvert`.
 
 If the stronger condition
 
-4. $`\lvert x + y \rvert \leq \max(\lvert x \rvert, \lvert y \rvert)`$
+4. $`\lvert x + y \rvert \leq \max(\lvert x \rvert, \lvert y \rvert)`
 
 also holds, then the absolute value is _nonarchimedean_; otherwise it is _archimedean_.
 
@@ -52,11 +52,11 @@ def isNonarchimedean_def {k : Type*} [Field k] (f : AbsoluteValue k ℝ) :=
 number := false
 %%%
 
-_Example 1.3._ The map $`\lvert \cdot \rvert \colon k \to \mathbb{R}_{\geq 0}`$ defined by
+_Example 1.3._ The map $`\lvert \cdot \rvert \colon k \to \mathbb{R}_{\geq 0}` defined by
 
-$$`\lvert x \rvert = \begin{cases} 1 & \text{if } x \neq 0, \\ 0 & \text{if } x = 0, \end{cases}`$$
+$$`\lvert x \rvert = \begin{cases} 1 & \text{if } x \neq 0, \\ 0 & \text{if } x = 0, \end{cases}`
 
-is the _trivial absolute value_ on $`k`$. It is nonarchimedean.
+is the _trivial absolute value_ on $`k`. It is nonarchimedean.
 
 ```lean
 /-- Example 1.3: The trivial absolute value exists on any field. -/
@@ -88,13 +88,13 @@ theorem trivialAbsoluteValue_isNonarchimedean (k : Type*) [DecidableEq k] [Field
 number := false
 %%%
 
-_Lemma 1.4._ An absolute value $`\lvert \cdot \rvert`$ on a field $`k`$ is nonarchimedean if and only if
+_Lemma 1.4._ An absolute value $`\lvert \cdot \rvert` on a field $`k` is nonarchimedean if and only if
 
-$$`\lvert \underbrace{1 + \cdots + 1}_{n} \rvert \leq 1`$$
+$$`\lvert \underbrace{1 + \cdots + 1}_{n} \rvert \leq 1`
 
-for all $`n \geq 1`$.
+for all $`n \geq 1`.
 
-_Proof._ See Problem Set 1. $`\square`$
+_Proof._ See Problem Set 1. $`\square`
 
 ```lean
 /-- Key bound via binomial theorem: f(x+y)^n ≤ (n+1) * max(f x, f y)^n. -/
@@ -209,7 +209,7 @@ theorem finite_field_absval_trivial {k : Type*} [Field k] [Finite k]
 number := false
 %%%
 
-_Definition 1.6._ Two absolute values $`\lvert \cdot \rvert`$ and $`\lvert \cdot \rvert'`$ on the same field $`k`$ are _equivalent_ if there exists an $`\alpha \in \mathbb{R}_{>0}`$ for which $`\lvert x \rvert' = \lvert x \rvert^{\alpha}`$ for all $`x \in k`$.
+_Definition 1.6._ Two absolute values $`\lvert \cdot \rvert` and $`\lvert \cdot \rvert'` on the same field $`k` are _equivalent_ if there exists an $`\alpha \in \mathbb{R}_{>0}` for which $`\lvert x \rvert' = \lvert x \rvert^{\alpha}` for all $`x \in k`.
 
 ```lean
 /-- Definition 1.6: Two absolute values on k are equivalent if one is a

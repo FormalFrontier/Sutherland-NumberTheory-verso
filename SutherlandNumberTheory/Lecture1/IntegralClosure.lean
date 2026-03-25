@@ -26,7 +26,7 @@ number := false
 number := false
 %%%
 
-_Definition 1.17._ Given a ring extension $`A \subseteq B`$, an element $`b \in B`$ is _integral over $`A`$_ if is a root of a monic polynomial in $`A[x]`$. The ring $`B`$ is _integral over $`A`$_ if all its elements are.
+_Definition 1.17._ Given a ring extension $`A \subseteq B`, an element $`b \in B` is _integral over $`A`_ if is a root of a monic polynomial in $`A[x]`. The ring $`B` is _integral over $`A`_ if all its elements are.
 
 ```lean
 /-- Definition 1.17 (element-level): An element b ∈ B is integral over A if it is
@@ -45,25 +45,25 @@ example {A B : Type*} [CommRing A] [CommRing B] [Algebra A B] :
 number := false
 %%%
 
-_Proposition 1.18._ _Let $`\alpha, \beta \in B`$ be integral over $`A \subseteq B`$. Then $`\alpha + \beta`$ and $`\alpha\beta`$ are integral over $`A`$._
+_Proposition 1.18._ _Let $`\alpha, \beta \in B` be integral over $`A \subseteq B`. Then $`\alpha + \beta` and $`\alpha\beta` are integral over $`A`._
 
-_Proof._ Let $`f \in A[x]`$ and $`g \in A[y]`$ be such that $`f(\alpha) = g(\beta) = 0`$, where
+_Proof._ Let $`f \in A[x]` and $`g \in A[y]` be such that $`f(\alpha) = g(\beta) = 0`, where
 
-$$`f(x) = a_0 + a_1 x + \cdots + a_{m-1} x^{m-1} + x^m,`$$
+$$`f(x) = a_0 + a_1 x + \cdots + a_{m-1} x^{m-1} + x^m,`
 
-$$`g(y) = b_0 + b_1 y + \cdots + b_{n-1} y^{n-1} + y^n.`$$
+$$`g(y) = b_0 + b_1 y + \cdots + b_{n-1} y^{n-1} + y^n.`
 
 It suffices to consider the case
 
-$$`A = \mathbb{Z}[a_0, \ldots, a_{m-1}, b_0, \ldots, b_{n-1}], \qquad \text{and} \qquad B = \frac{A[x, y]}{\bigl(f(x), g(y)\bigr)},`$$
+$$`A = \mathbb{Z}[a_0, \ldots, a_{m-1}, b_0, \ldots, b_{n-1}], \qquad \text{and} \qquad B = \frac{A[x, y]}{\bigl(f(x), g(y)\bigr)},`
 
-with $`\alpha`$ and $`\beta`$ equal to the images of $`x`$ and $`y`$ in $`B`$, respectively, since given any $`A' \subseteq B'`$ we have homomorphisms $`A \to A'`$ defined by $`a_i \mapsto a_i`$ and $`b_i \mapsto b_i`$ and $`B \to B'`$ defined by $`x \mapsto \alpha`$ and $`y \mapsto \beta`$, and if $`x + y, xy \in B`$ are integral over $`A`$ then $`\alpha + \beta, \alpha\beta \in B'`$ must be integral over $`A'`$.
+with $`\alpha` and $`\beta` equal to the images of $`x` and $`y` in $`B`, respectively, since given any $`A' \subseteq B'` we have homomorphisms $`A \to A'` defined by $`a_i \mapsto a_i` and $`b_i \mapsto b_i` and $`B \to B'` defined by $`x \mapsto \alpha` and $`y \mapsto \beta`, and if $`x + y, xy \in B` are integral over $`A` then $`\alpha + \beta, \alpha\beta \in B'` must be integral over $`A'`.
 
-Let $`k`$ be the algebraic closure of the fraction field of $`A`$, and let $`\alpha_1, \ldots, \alpha_m`$ be the roots of $`f`$ in $`k`$ and let $`\beta_1, \ldots, \beta_n`$ be the roots of $`g`$ in $`k`$. The polynomial
+Let $`k` be the algebraic closure of the fraction field of $`A`, and let $`\alpha_1, \ldots, \alpha_m` be the roots of $`f` in $`k` and let $`\beta_1, \ldots, \beta_n` be the roots of $`g` in $`k`. The polynomial
 
-$$`h(z) = \prod_{i,j} \bigl(z - (\alpha_i + \beta_j)\bigr)`$$
+$$`h(z) = \prod_{i,j} \bigl(z - (\alpha_i + \beta_j)\bigr)`
 
-has coefficients that may be expressed as polynomials in the symmetric functions of the $`\alpha_i`$ and $`\beta_j`$, equivalently, the coefficients $`a_i`$ and $`b_j`$ of $`f`$ and $`g`$, respectively. Thus $`h \in A[z]`$, and $`h(x+y) = 0`$, so $`x+y`$ is integral over $`A`$. Applying the same argument to $`h(z) = \prod_{i,j}(z - \alpha_i \beta_j)`$ shows that $`xy`$ is also integral over $`A`$. $`\square`$
+has coefficients that may be expressed as polynomials in the symmetric functions of the $`\alpha_i` and $`\beta_j`, equivalently, the coefficients $`a_i` and $`b_j` of $`f` and $`g`, respectively. Thus $`h \in A[z]`, and $`h(x+y) = 0`, so $`x+y` is integral over $`A`. Applying the same argument to $`h(z) = \prod_{i,j}(z - \alpha_i \beta_j)` shows that $`xy` is also integral over $`A`. $`\square`
 
 ```lean
 /-- Proposition 1.18 (sum): The sum of integral elements is integral. -/
@@ -84,7 +84,7 @@ theorem integral_mul {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
 number := false
 %%%
 
-_Definition 1.19._ Given a ring extension $`B/A`$, the ring $`\tilde{A} = \{b \in B : b \text{ is integral over } A\}`$ is the _integral closure_ of $`A`$ in $`B`$. When $`\tilde{A} = A`$ we say that $`A`$ is _integrally closed in $`B`$_. For a domain $`A`$, its _integral closure_ (or _normalization_) is its integral closure in its fraction field, and $`A`$ is _integrally closed_ (or _normal_) if it is integrally closed in its fraction field.
+_Definition 1.19._ Given a ring extension $`B/A`, the ring $`\tilde{A} = \{b \in B : b \text{ is integral over } A\}` is the _integral closure_ of $`A` in $`B`. When $`\tilde{A} = A` we say that $`A` is _integrally closed in $`B`_. For a domain $`A`, its _integral closure_ (or _normalization_) is its integral closure in its fraction field, and $`A` is _integrally closed_ (or _normal_) if it is integrally closed in its fraction field.
 
 ```lean
 /-- Definition 1.19: The integral closure of R in A is the subalgebra of elements
@@ -103,9 +103,9 @@ example {R : Type*} [CommRing R] [IsDomain R] :
 number := false
 %%%
 
-_Proposition 1.20._ _If $`C/B/A`$ is a tower of ring extensions in which $`B`$ is integral over $`A`$ and $`C`$ is integral over $`B`$ then $`C`$ is integral over $`A`$._
+_Proposition 1.20._ _If $`C/B/A` is a tower of ring extensions in which $`B` is integral over $`A` and $`C` is integral over $`B` then $`C` is integral over $`A`._
 
-_Proof._ See \[1, Thm. 10.27\] or \[2, Cor. 5.4\]. $`\square`$
+_Proof._ See \[1, Thm. 10.27\] or \[2, Cor. 5.4\]. $`\square`
 
 ```lean
 /-- Proposition 1.20: If B is integral over A and C is integral over B, then
@@ -123,7 +123,7 @@ theorem integrality_trans {A B C : Type*}
 number := false
 %%%
 
-_Corollary 1.21._ _If $`B/A`$ is a ring extension, then the integral closure of $`A`$ in $`B`$ is integrally closed in $`B`$._
+_Corollary 1.21._ _If $`B/A` is a ring extension, then the integral closure of $`A` in $`B` is integrally closed in $`B`._
 
 ```lean
 /-- Corollary 1.21: The integral closure of A in B is integrally closed in B.
@@ -139,17 +139,17 @@ theorem integralClosure_isIntegrallyClosedIn
 number := false
 %%%
 
-_Proposition 1.22._ _The ring $`\mathbb{Z}`$ is integrally closed._
+_Proposition 1.22._ _The ring $`\mathbb{Z}` is integrally closed._
 
-_Proof._ We apply the rational root test: suppose $`r/s \in \mathbb{Q}`$ is integral over $`\mathbb{Z}`$, where $`r`$ and $`s`$ are coprime integers. Then
+_Proof._ We apply the rational root test: suppose $`r/s \in \mathbb{Q}` is integral over $`\mathbb{Z}`, where $`r` and $`s` are coprime integers. Then
 
-$$`\left(\frac{r}{s}\right)^n + a_{n-1} \left(\frac{r}{s}\right)^{n-1} + \cdots a_1 \left(\frac{r}{s}\right) + a_0 = 0`$$
+$$`\left(\frac{r}{s}\right)^n + a_{n-1} \left(\frac{r}{s}\right)^{n-1} + \cdots a_1 \left(\frac{r}{s}\right) + a_0 = 0`
 
-for some $`a_0, \ldots, a_{n-1} \in \mathbb{Z}`$. Clearing denominators yields
+for some $`a_0, \ldots, a_{n-1} \in \mathbb{Z}`. Clearing denominators yields
 
-$$`r^n + a_{n-1} s r^{n-1} + \cdots a_1 s^{n-1} r + a_0 s^n = 0,`$$
+$$`r^n + a_{n-1} s r^{n-1} + \cdots a_1 s^{n-1} r + a_0 s^n = 0,`
 
-thus $`r^n = -s(a_{n-1} r^{n-1} + \cdots a_1 s^{n-2} r + a_0 s^{n-1})`$ is a multiple of $`s`$. But $`r`$ and $`s`$ are coprime, so $`s = \pm 1`$ and therefore $`r/s \in \mathbb{Z}`$. $`\square`$
+thus $`r^n = -s(a_{n-1} r^{n-1} + \cdots a_1 s^{n-2} r + a_0 s^{n-1})` is a multiple of $`s`. But $`r` and $`s` are coprime, so $`s = \pm 1` and therefore $`r/s \in \mathbb{Z}`. $`\square`
 
 ```lean
 /-- Proposition 1.22: ℤ is integrally closed in its fraction field ℚ.
@@ -164,7 +164,7 @@ number := false
 
 _Corollary 1.23._ _Every unique factorization domain is integrally closed. In particular, every PID is integrally closed._
 
-_Proof._ The proof of Proposition 1.22 works for any UFD. $`\square`$
+_Proof._ The proof of Proposition 1.22 works for any UFD. $`\square`
 
 ```lean
 /-- Corollary 1.23: Every UFD is integrally closed. In particular, every PID
@@ -179,7 +179,7 @@ theorem ufd_isIntegrallyClosed (A : Type*) [CommRing A] [IsDomain A]
 number := false
 %%%
 
-_Example 1.24._ The ring $`\mathbb{Z}[\sqrt{5}]`$ is not a UFD (nor a PID) because it is not integrally closed: consider $`\phi = (1 + \sqrt{5})/2 \in \operatorname{Frac} \mathbb{Z}[\sqrt{5}]`$, which is integral over $`\mathbb{Z}`$ (and hence over $`\mathbb{Z}[\sqrt{5}]`$), since $`\phi^2 - \phi - 1 = 0`$. But $`\phi \notin \mathbb{Z}[\sqrt{5}]`$, so $`\mathbb{Z}[\sqrt{5}]`$ is not integrally closed.
+_Example 1.24._ The ring $`\mathbb{Z}[\sqrt{5}]` is not a UFD (nor a PID) because it is not integrally closed: consider $`\phi = (1 + \sqrt{5})/2 \in \operatorname{Frac} \mathbb{Z}[\sqrt{5}]`, which is integral over $`\mathbb{Z}` (and hence over $`\mathbb{Z}[\sqrt{5}]`), since $`\phi^2 - \phi - 1 = 0`. But $`\phi \notin \mathbb{Z}[\sqrt{5}]`, so $`\mathbb{Z}[\sqrt{5}]` is not integrally closed.
 
 The corollary implies that every discrete valuation ring is integrally closed. In fact, more is true.
 
@@ -315,15 +315,15 @@ number := false
 
 _Proposition 1.25._ _Every valuation ring is integrally closed._
 
-_Proof._ Let $`A`$ be a valuation ring with fraction field $`k`$ and let $`\alpha \in k`$ be integral over $`A`$. Then
+_Proof._ Let $`A` be a valuation ring with fraction field $`k` and let $`\alpha \in k` be integral over $`A`. Then
 
-$$`\alpha^n + a_{n-1} \alpha^{n-1} + a_{n-2} \alpha^{n-2} + \cdots + a_1 \alpha + a_0 = 0`$$
+$$`\alpha^n + a_{n-1} \alpha^{n-1} + a_{n-2} \alpha^{n-2} + \cdots + a_1 \alpha + a_0 = 0`
 
-for some $`a_0, a_1, \ldots, a_{n-1} \in A`$. Suppose $`\alpha \notin A`$. Then $`\alpha^{-1} \in A`$, since $`A`$ is a valuation ring. Multiplying the equation above by $`\alpha^{-(n-1)} \in A`$ and moving all but the first term on the LHS to the RHS yields
+for some $`a_0, a_1, \ldots, a_{n-1} \in A`. Suppose $`\alpha \notin A`. Then $`\alpha^{-1} \in A`, since $`A` is a valuation ring. Multiplying the equation above by $`\alpha^{-(n-1)} \in A` and moving all but the first term on the LHS to the RHS yields
 
-$$`\alpha = -a_{n-1} - a_{n-1} \alpha^{-1} - \cdots - a_1 \alpha^{2-n} - a_0 \alpha^{1-n} \in A,`$$
+$$`\alpha = -a_{n-1} - a_{n-1} \alpha^{-1} - \cdots - a_1 \alpha^{2-n} - a_0 \alpha^{1-n} \in A,`
 
-contradicting our assumption that $`\alpha \notin A`$. It follows that $`A`$ is integrally closed. $`\square`$
+contradicting our assumption that $`\alpha \notin A`. It follows that $`A` is integrally closed. $`\square`
 
 ```lean
 /-- Proposition 1.25: Every valuation ring is integrally closed.

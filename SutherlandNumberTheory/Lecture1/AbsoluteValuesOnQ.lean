@@ -16,22 +16,22 @@ tag := "absolute-values-on-q"
 number := false
 %%%
 
-To avoid confusion we will denote the usual absolute value on $`\mathbb{Q}`$ (inherited from $`\mathbb{R}`$) by $`\lvert \cdot \rvert_{\infty}`$; it is an archimedean absolute value. But there are infinitely many others. Recall that any element of $`\mathbb{Q}^{\times}`$ may be written as $`\pm \prod_q q^{e_q}`$, where the product ranges over primes and the exponents $`e_q \in \mathbb{Z}`$ are uniquely determined (as is the sign).
+To avoid confusion we will denote the usual absolute value on $`\mathbb{Q}` (inherited from $`\mathbb{R}`) by $`\lvert \cdot \rvert_{\infty}`; it is an archimedean absolute value. But there are infinitely many others. Recall that any element of $`\mathbb{Q}^{\times}` may be written as $`\pm \prod_q q^{e_q}`, where the product ranges over primes and the exponents $`e_q \in \mathbb{Z}` are uniquely determined (as is the sign).
 
 # Definition 1.7
 %%%
 number := false
 %%%
 
-_Definition 1.7._ For a prime $`p`$ the _$`p`$-adic valuation_ $`v_p \colon \mathbb{Q} \to \mathbb{Z}`$ is defined by
+_Definition 1.7._ For a prime $`p` the _$`p`-adic valuation_ $`v_p \colon \mathbb{Q} \to \mathbb{Z}` is defined by
 
-$$`v_p\!\left(\pm \prod_q q^{e_q}\right) \coloneqq e_p,`$$
+$$`v_p\!\left(\pm \prod_q q^{e_q}\right) \coloneqq e_p,`
 
-and we define $`v_p(0) \coloneqq \infty`$. The _$`p`$-adic absolute value_ on $`\mathbb{Q}`$ is defined by
+and we define $`v_p(0) \coloneqq \infty`. The _$`p`-adic absolute value_ on $`\mathbb{Q}` is defined by
 
-$$`\lvert x \rvert_p \coloneqq p^{-v_p(x)},`$$
+$$`\lvert x \rvert_p \coloneqq p^{-v_p(x)},`
 
-where $`\lvert 0 \rvert_p = p^{-\infty}`$ is understood to be $`0`$.
+where $`\lvert 0 \rvert_p = p^{-\infty}` is understood to be $`0`.
 
 ```lean
 /-- Definition 1.7: The p-adic valuation on ℚ. -/
@@ -56,9 +56,9 @@ theorem padicNorm_nonarchimedean (p : ℕ) [Fact (Nat.Prime p)] (q r : ℚ) :
 number := false
 %%%
 
-_Theorem 1.8_ (Ostrowski's Theorem)_._ Every nontrivial absolute value on $`\mathbb{Q}`$ is equivalent to $`\lvert \cdot \rvert_p`$ for some $`p \leq \infty`$.
+_Theorem 1.8_ (Ostrowski's Theorem)_._ Every nontrivial absolute value on $`\mathbb{Q}` is equivalent to $`\lvert \cdot \rvert_p` for some $`p \leq \infty`.
 
-_Proof._ See Problem Set 1. $`\square`$
+_Proof._ See Problem Set 1. $`\square`
 
 ```lean
 /-- Theorem 1.8 (Ostrowski's Theorem): Every nontrivial absolute value on ℚ
@@ -74,11 +74,11 @@ theorem ostrowski (f : AbsoluteValue ℚ ℝ) (hf : f.IsNontrivial) :
 number := false
 %%%
 
-_Theorem 1.9_ (Product Formula)_._ For every $`x \in \mathbb{Q}^{\times}`$ we have
+_Theorem 1.9_ (Product Formula)_._ For every $`x \in \mathbb{Q}^{\times}` we have
 
-$$`\prod_{p \leq \infty} \lvert x \rvert_p = 1.`$$
+$$`\prod_{p \leq \infty} \lvert x \rvert_p = 1.`
 
-_Proof._ See Problem Set 1. $`\square`$
+_Proof._ See Problem Set 1. $`\square`
 
 ```lean
 /-- For a nonzero rational, padicNorm p q = 1 for all primes p not dividing

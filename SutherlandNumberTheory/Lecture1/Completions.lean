@@ -32,22 +32,22 @@ number := false
 number := false
 %%%
 
-_Definition 1.10._ A _valuation_ on a field $`k`$ is a group homomorphism $`k^{\times} \to \mathbb{R}`$ such that for all $`x, y \in k`$ we have
+_Definition 1.10._ A _valuation_ on a field $`k` is a group homomorphism $`k^{\times} \to \mathbb{R}` such that for all $`x, y \in k` we have
 
-$$`v(x + y) \geq \min\bigl(v(x), v(y)\bigr).`$$
+$$`v(x + y) \geq \min\bigl(v(x), v(y)\bigr).`
 
-We may extend $`v`$ to a map $`k \to \mathbb{R} \cup \{\infty\}`$ by defining $`v(0) \coloneqq \infty`$. For any $`0 < c < 1`$, defining $`\lvert x \rvert_v \coloneqq c^{v(x)}`$ yields a nonarchimedean absolute value. The image of $`v`$ in $`\mathbb{R}`$ is the
-_value group_ of $`v`$. We say that $`v`$ is a _discrete valuation_ if its value group is equal to $`\mathbb{Z}`$ (every discrete subgroup of $`\mathbb{R}`$ is isomorphic to $`\mathbb{Z}`$, so we can always rescale a valuation with a discrete value group so that this holds). Given a field $`k`$ with valuation $`v`$, the set
+We may extend $`v` to a map $`k \to \mathbb{R} \cup \{\infty\}` by defining $`v(0) \coloneqq \infty`. For any $`0 < c < 1`, defining $`\lvert x \rvert_v \coloneqq c^{v(x)}` yields a nonarchimedean absolute value. The image of $`v` in $`\mathbb{R}` is the
+_value group_ of $`v`. We say that $`v` is a _discrete valuation_ if its value group is equal to $`\mathbb{Z}` (every discrete subgroup of $`\mathbb{R}` is isomorphic to $`\mathbb{Z}`, so we can always rescale a valuation with a discrete value group so that this holds). Given a field $`k` with valuation $`v`, the set
 
-$$`A := \{x \in k : v(x) \geq 0\},`$$
+$$`A := \{x \in k : v(x) \geq 0\},`
 
-is the _valuation ring_ of $`k`$ (with respect to $`v`$). A _discrete valuation ring_ (DVR) is an integral domain that is the valuation ring of its fraction field with respect to a discrete valuation; such a ring $`A`$ cannot be a field, since $`v(\operatorname{Frac} A) = \mathbb{Z} \neq \mathbb{Z}_{\geq 0} = v(A)`$.
+is the _valuation ring_ of $`k` (with respect to $`v`). A _discrete valuation ring_ (DVR) is an integral domain that is the valuation ring of its fraction field with respect to a discrete valuation; such a ring $`A` cannot be a field, since $`v(\operatorname{Frac} A) = \mathbb{Z} \neq \mathbb{Z}_{\geq 0} = v(A)`.
 
-It is easy to verify that every valuation ring $`A`$ is a in fact a ring, and even an integral domain (if $`x`$ and $`y`$ are nonzero then $`v(xy) = v(x) + v(y) \neq \infty`$, so $`xy \neq 0`$), with $`k`$ as its fraction field. Notice that for any $`x \in k^{\times}`$ we have $`v(1/x) = v(1) - v(x) = -v(x)`$, so at least one of $`x`$ and $`1/x`$ has nonnegative valuation and lies in $`A`$. It follows that $`x \in A`$ is invertible (in $`A`$) if and only if $`v(x) = 0`$, hence the unit group of $`A`$ is
+It is easy to verify that every valuation ring $`A` is a in fact a ring, and even an integral domain (if $`x` and $`y` are nonzero then $`v(xy) = v(x) + v(y) \neq \infty`, so $`xy \neq 0`), with $`k` as its fraction field. Notice that for any $`x \in k^{\times}` we have $`v(1/x) = v(1) - v(x) = -v(x)`, so at least one of $`x` and $`1/x` has nonnegative valuation and lies in $`A`. It follows that $`x \in A` is invertible (in $`A`) if and only if $`v(x) = 0`, hence the unit group of $`A` is
 
-$$`A^{\times} = \{x \in k : v(x) = 0\},`$$
+$$`A^{\times} = \{x \in k : v(x) = 0\},`
 
-We can partition the nonzero elements of $`k`$ according to the sign of their valuation. Elements with valuation zero are units in $`A`$, elements with positive valuation are non-units in $`A`$, and elements with negative valuation do not lie in $`A`$, but their multiplicative inverses are non-units in $`A`$. This leads to a more general notion of a valuation ring.
+We can partition the nonzero elements of $`k` according to the sign of their valuation. Elements with valuation zero are units in $`A`, elements with positive valuation are non-units in $`A`, and elements with negative valuation do not lie in $`A`, but their multiplicative inverses are non-units in $`A`. This leads to a more general notion of a valuation ring.
 
 ```lean
 /-- Definition 1.10: A valuation on a field in the additive convention. -/
@@ -69,21 +69,21 @@ def valuationRing_of_field (A : Type*) [CommRing A] [IsDomain A] :=
 number := false
 %%%
 
-_Definition 1.11._ A _valuation ring_ is an integral domain $`A`$ with fraction field $`k`$ with the property that for every $`x \in k`$, either $`x \in A`$ or $`x^{-1} \in A`$.
+_Definition 1.11._ A _valuation ring_ is an integral domain $`A` with fraction field $`k` with the property that for every $`x \in k`, either $`x \in A` or $`x^{-1} \in A`.
 
-Let us now suppose that the integral domain $`A`$ is the valuation ring of its fraction field with respect to some discrete valuation $`v`$ (which we shall see is uniquely determined). Any element $`\pi \in A`$ for which $`v(\pi) = 1`$ is called a _uniformizer_. Uniformizers exist, since $`v(A) = \mathbb{Z}_{\geq 0}`$. If we fix a uniformizer $`\pi`$, every $`x \in k^{\times}`$ can be written uniquely as
+Let us now suppose that the integral domain $`A` is the valuation ring of its fraction field with respect to some discrete valuation $`v` (which we shall see is uniquely determined). Any element $`\pi \in A` for which $`v(\pi) = 1` is called a _uniformizer_. Uniformizers exist, since $`v(A) = \mathbb{Z}_{\geq 0}`. If we fix a uniformizer $`\pi`, every $`x \in k^{\times}` can be written uniquely as
 
-$$`x = u\pi^n`$$
+$$`x = u\pi^n`
 
-where $`n = v(x)`$ and $`u = x/\pi^n \in A^{\times}`$ and uniquely determined. It follows that $`A`$ is a unique factorization domain (UFD), and in fact $`A`$ is a principal ideal domain (PID). Indeed, every nonzero ideal of $`A`$ is equal to
+where $`n = v(x)` and $`u = x/\pi^n \in A^{\times}` and uniquely determined. It follows that $`A` is a unique factorization domain (UFD), and in fact $`A` is a principal ideal domain (PID). Indeed, every nonzero ideal of $`A` is equal to
 
-$$`(\pi^n) = \{a \in A : v(a) \geq n\},`$$
+$$`(\pi^n) = \{a \in A : v(a) \geq n\},`
 
-for some integer $`n \geq 0`$. Moreover, the ideal $`(\pi^n)`$ depends only on $`n`$, not the choice of uniformizer $`\pi`$: if $`\pi'`$ is any other uniformizer its unique representation $`\pi' = u\pi^1`$ differs from $`\pi`$ only by a unit. The ideals of $`A`$ are thus totally ordered, and the ideal
+for some integer $`n \geq 0`. Moreover, the ideal $`(\pi^n)` depends only on $`n`, not the choice of uniformizer $`\pi`: if $`\pi'` is any other uniformizer its unique representation $`\pi' = u\pi^1` differs from $`\pi` only by a unit. The ideals of $`A` are thus totally ordered, and the ideal
 
-$$`\mathfrak{m} = (\pi) = \{a \in A : v(a) > 0\}`$$
+$$`\mathfrak{m} = (\pi) = \{a \in A : v(a) > 0\}`
 
-is the unique maximal ideal of $`A`$ (and also the only nonzero prime ideal of $`A`$).
+is the unique maximal ideal of $`A` (and also the only nonzero prime ideal of $`A`).
 
 ```lean
 /-- Definition 1.11: A valuation ring. -/
@@ -109,7 +109,7 @@ def localRing_def (A : Type*) [CommRing A] :=
 number := false
 %%%
 
-_Definition 1.13._ The _residue field_ of a local ring $`A`$ with maximal ideal $`\mathfrak{m}`$ is the field $`A/\mathfrak{m}`$.
+_Definition 1.13._ The _residue field_ of a local ring $`A` with maximal ideal $`\mathfrak{m}` is the field $`A/\mathfrak{m}`.
 
 ```lean
 /-- Definition 1.13: The residue field A/𝔪. -/
@@ -117,20 +117,20 @@ def residueField_def (A : Type*) [CommRing A] [IsLocalRing A] :=
   IsLocalRing.ResidueField A
 ```
 
-We can now see how to determine the valuation $`v`$ corresponding to a discrete valuation ring $`A`$. Given a discrete valuation ring $`A`$ with unique maximal ideal $`\mathfrak{m}`$, we may define $`v \colon A \to \mathbb{Z}`$ by letting $`v(a)`$ be the unique integer $`n`$ for which $`(a) = \mathfrak{m}^n`$ and $`v(0) \coloneqq \infty`$. Extending $`v`$ to the fraction field $`k`$ of $`A`$ via $`v(a/b) \coloneqq v(a) - v(b)`$ gives a discrete valuation $`v`$ on $`k`$ for which $`A = \{x \in k : v(x) \geq 0\}`$ is the corresponding valuation ring.
+We can now see how to determine the valuation $`v` corresponding to a discrete valuation ring $`A`. Given a discrete valuation ring $`A` with unique maximal ideal $`\mathfrak{m}`, we may define $`v \colon A \to \mathbb{Z}` by letting $`v(a)` be the unique integer $`n` for which $`(a) = \mathfrak{m}^n` and $`v(0) \coloneqq \infty`. Extending $`v` to the fraction field $`k` of $`A` via $`v(a/b) \coloneqq v(a) - v(b)` gives a discrete valuation $`v` on $`k` for which $`A = \{x \in k : v(x) \geq 0\}` is the corresponding valuation ring.
 
-Notice that any discrete valuation $`v`$ on $`k`$ with $`A`$ as its valuation ring must satisfy $`v(\pi) = 1`$ for some $`\pi \in \mathfrak{m}`$ (otherwise $`v(k) \neq \mathbb{Z}`$), and we then have $`v(\pi) = 1`$ if and only if $`\mathfrak{m} = (\pi)`$. Moreover, $`v`$ must then coincide with the discrete valuation we just defined: for any DVR $`A`$, the discrete valuation on the fraction field of $`A`$ that yields $`A`$ as its valuation ring is uniquely determined. It follows that we could have defined a uniformizer to be any generator of the maximal ideal of $`A`$ without reference to a valuation.
+Notice that any discrete valuation $`v` on $`k` with $`A` as its valuation ring must satisfy $`v(\pi) = 1` for some $`\pi \in \mathfrak{m}` (otherwise $`v(k) \neq \mathbb{Z}`), and we then have $`v(\pi) = 1` if and only if $`\mathfrak{m} = (\pi)`. Moreover, $`v` must then coincide with the discrete valuation we just defined: for any DVR $`A`, the discrete valuation on the fraction field of $`A` that yields $`A` as its valuation ring is uniquely determined. It follows that we could have defined a uniformizer to be any generator of the maximal ideal of $`A` without reference to a valuation.
 
 # Example 1.14
 %%%
 number := false
 %%%
 
-_Example 1.14._ For the $`p`$-adic valuation $`v_p \colon \mathbb{Q} \to \mathbb{Z} \cup \{\infty\}`$ we have the valuation ring
+_Example 1.14._ For the $`p`-adic valuation $`v_p \colon \mathbb{Q} \to \mathbb{Z} \cup \{\infty\}` we have the valuation ring
 
-$$`\mathbb{Z}_{(p)} \coloneqq \left\{\frac{a}{b} : a, b \in \mathbb{Z},\, p \nmid b\right\},`$$
+$$`\mathbb{Z}_{(p)} \coloneqq \left\{\frac{a}{b} : a, b \in \mathbb{Z},\, p \nmid b\right\},`
 
-with maximal ideal $`\mathfrak{m} = (p)`$; this is the _localization_ of the ring $`\mathbb{Z}`$ at the prime ideal $`(p)`$. The residue field is $`\mathbb{Z}_{(p)}/p\mathbb{Z}_{(p)} \simeq \mathbb{Z}/p\mathbb{Z} \simeq \mathbb{F}_p`$.
+with maximal ideal $`\mathfrak{m} = (p)`; this is the _localization_ of the ring $`\mathbb{Z}` at the prime ideal $`(p)`. The residue field is $`\mathbb{Z}_{(p)}/p\mathbb{Z}_{(p)} \simeq \mathbb{Z}/p\mathbb{Z} \simeq \mathbb{F}_p`.
 
 ```lean
 /-- Example 1.14: The localization ℤ_(p) is a DVR. -/
@@ -161,11 +161,11 @@ theorem localization_at_prime_residue_field (p : ℕ) [hp : Fact (Nat.Prime p)]
 number := false
 %%%
 
-_Example 1.15._ For any field $`k`$, the valuation $`v \colon k((t)) \to \mathbb{Z} \cup \{\infty\}`$ on the field of Laurent series over $`k`$ defined by
+_Example 1.15._ For any field $`k`, the valuation $`v \colon k((t)) \to \mathbb{Z} \cup \{\infty\}` on the field of Laurent series over $`k` defined by
 
-$$`v\!\left(\sum_{n \geq n_0} a_n t^n\right) = n_0,`$$
+$$`v\!\left(\sum_{n \geq n_0} a_n t^n\right) = n_0,`
 
-where $`a_{n_0} \neq 0`$, has valuation ring $`k[[t]]`$, the power series ring over $`k`$. For $`f \in k((t))^{\times}`$, the valuation $`v(f) \in \mathbb{Z}`$ is the _order of vanishing_ of $`f`$ at zero. For every $`\alpha \in k`$ one can similarly define a valuation $`v_{\alpha}`$ on $`k`$ as the order of vanishing of $`f`$ at $`\alpha`$ by taking the Laurent series expansion of $`f`$ about $`\alpha`$.
+where $`a_{n_0} \neq 0`, has valuation ring $`k[[t]]`, the power series ring over $`k`. For $`f \in k((t))^{\times}`, the valuation $`v(f) \in \mathbb{Z}` is the _order of vanishing_ of $`f` at zero. For every $`\alpha \in k` one can similarly define a valuation $`v_{\alpha}` on $`k` as the order of vanishing of $`f` at $`\alpha` by taking the Laurent series expansion of $`f` about $`\alpha`.
 
 ```lean
 /-- Example 1.15: The power series ring k[[t]] is a DVR. -/
@@ -179,15 +179,15 @@ theorem laurentSeries_valuation_ring (k : Type*) [Field k] :
   inferInstance
 ```
 
-Discrete valuation rings are in many respects the nicest rings that are not fields. In addition to being an integral domain, every discrete valuation ring $`A`$ enjoys the following properties:
+Discrete valuation rings are in many respects the nicest rings that are not fields. In addition to being an integral domain, every discrete valuation ring $`A` enjoys the following properties:
 
-- _noetherian_: Every increasing sequence $`I_1 \subseteq I_2 \subseteq \cdots`$ of ideals eventually stabilizes; equivalently, every ideal is finitely generated.
+- _noetherian_: Every increasing sequence $`I_1 \subseteq I_2 \subseteq \cdots` of ideals eventually stabilizes; equivalently, every ideal is finitely generated.
 - _principal ideal domain_: Every ideal is principal (generated by a single element).
-- _local_: There is a unique maximal ideal $`\mathfrak{m}`$.
-- _dimension one_: The (Krull) _dimension_ of a ring $`R`$ is the supremum of the lengths $`n`$ of all chains of prime ideals $`\mathfrak{p}_0 \subsetneq \mathfrak{p}_1 \subsetneq \cdots \subsetneq \mathfrak{p}_n`$ (which need not be finite, in general). For DVRs, $`(0) \subseteq \mathfrak{m}`$ is the longest chain of prime ideals, with length 1.
-- _regular_: The dimension of the $`A/\mathfrak{m}`$-vector space $`\mathfrak{m}/\mathfrak{m}^2`$ is equal to the dimension of $`A`$. Non-local rings are regular if this holds for every localization at a prime ideal.
-- _integrally closed_ (or _normal_): Every element of the fraction field of $`A`$ that is the root of a monic polynomial in $`A[x]`$ lies in $`A`$.
-- _maximal_: There are no intermediate rings strictly between $`A`$ and its fraction field.
+- _local_: There is a unique maximal ideal $`\mathfrak{m}`.
+- _dimension one_: The (Krull) _dimension_ of a ring $`R` is the supremum of the lengths $`n` of all chains of prime ideals $`\mathfrak{p}_0 \subsetneq \mathfrak{p}_1 \subsetneq \cdots \subsetneq \mathfrak{p}_n` (which need not be finite, in general). For DVRs, $`(0) \subseteq \mathfrak{m}` is the longest chain of prime ideals, with length 1.
+- _regular_: The dimension of the $`A/\mathfrak{m}`-vector space $`\mathfrak{m}/\mathfrak{m}^2` is equal to the dimension of $`A`. Non-local rings are regular if this holds for every localization at a prime ideal.
+- _integrally closed_ (or _normal_): Every element of the fraction field of $`A` that is the root of a monic polynomial in $`A[x]` lies in $`A`.
+- _maximal_: There are no intermediate rings strictly between $`A` and its fraction field.
 
 Various combinations of these properties can be used to uniquely characterize discrete valuation rings (and hence give alternative definitions).
 
@@ -196,17 +196,17 @@ Various combinations of these properties can be used to uniquely characterize di
 number := false
 %%%
 
-_Theorem 1.16._ _For an integral domain $`A`$, the following are equivalent:_
+_Theorem 1.16._ _For an integral domain $`A`, the following are equivalent:_
 
-- _$`A`$ is a DVR._
-- _$`A`$ is a noetherian valuation ring that is not a field._
-- _$`A`$ is a local PID that is not a field._
-- _$`A`$ is an integrally closed noetherian local ring of dimension one._
-- _$`A`$ is a regular noetherian local ring of dimension one._
-- _$`A`$ is a noetherian local ring whose maximal ideal is nonzero and principal._
-- _$`A`$ is a maximal noetherian ring of dimension one._
+- _$`A` is a DVR._
+- _$`A` is a noetherian valuation ring that is not a field._
+- _$`A` is a local PID that is not a field._
+- _$`A` is an integrally closed noetherian local ring of dimension one._
+- _$`A` is a regular noetherian local ring of dimension one._
+- _$`A` is a noetherian local ring whose maximal ideal is nonzero and principal._
+- _$`A` is a maximal noetherian ring of dimension one._
 
-_Proof._ See \[1, §23\] or \[2, §9\]. $`\square`$
+_Proof._ See \[1, §23\] or \[2, §9\]. $`\square`
 
 ```lean
 /-- Theorem 1.16: Seven equivalent characterizations of DVRs. -/
