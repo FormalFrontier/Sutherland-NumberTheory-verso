@@ -21,7 +21,7 @@ number := false
 number := false
 %%%
 
-A _number field_ $K$ is a finite extension of $\mathbb{Q}$. The _ring of integers_ $\mathcal{O}_K$ is the integral closure of $\mathbb{Z}$ in $K$.
+_Definition 1.26._ A _number field_ $`K`$ is a finite extension of $`\mathbb{Q}`$. The _ring of integers_ $`\mathcal{O}_K`$ is the integral closure of $`\mathbb{Z}`$ in $`K`$.
 
 ```lean
 /-- Definition 1.26: A number field is a finite extension of ℚ.
@@ -40,20 +40,20 @@ example (K : Type*) [Field K] [NumberField K] : Type _ :=
 number := false
 %%%
 
-The notation $\mathbb{Z}_K$ is also sometimes used to denote the ring of integers of $K$. The symbol $\mathcal{O}$ emphasizes the fact that $\mathcal{O}_K$ is an _order_ in $K$; in any $\mathbb{Q}$-algebra $K$ of finite dimension $r$, an order is a subring of $K$ that is also a free $\mathbb{Z}$-module of rank $r$, equivalently, a $\mathbb{Z}$-lattice in $K$ that is also a ring. In fact, $\mathcal{O}_K$ is the _maximal order_ of $K$: it contains every order in $K$.
+_Remark 1.27._ The notation $`\mathbb{Z}_K`$ is also sometimes used to denote the ring of integers of $`K`$. The symbol $`\mathcal{O}`$ emphasizes the fact that $`\mathcal{O}_K`$ is an _order_ in $`K`$; in any $`\mathbb{Q}`$-algebra $`K`$ of finite dimension $`r`$, an order is a subring of $`K`$ that is also a free $`\mathbb{Z}`$-module of rank $`r`$, equivalently, a $`\mathbb{Z}`$-lattice in $`K`$ that is also a ring. In fact, $`\mathcal{O}_K`$ is the _maximal order_ of $`K`$: it contains every order in $`K`$.
 
 # Proposition 1.28
 %%%
 number := false
 %%%
 
-_Let $A$ be an integrally closed domain with fraction field $K$. Let $\alpha$ be an element of a finite extension $L/K$, and let $f \in K[x]$ be its minimal polynomial over $K$. Then $\alpha$ is integral over $A$ if and only if $f \in A[x]$._
+_Proposition 1.28._ _Let $`A`$ be an integrally closed domain with fraction field $`K`$. Let $`\alpha`$ be an element of a finite extension $`L/K`$, and let $`f \in K[x]`$ be its minimal polynomial over $`K`$. Then $`\alpha`$ is integral over $`A`$ if and only if $`f \in A[x]`$._
 
-_Proof._ The reverse implication is immediate: if $f \in A[x]$ then certainly $\alpha$ is integral over $A$. For the forward implication, suppose $\alpha$ is integral over $A$ and let $g \in A[x]$ be a monic polynomial for which $g(\alpha) = 0$. In $\overline{K}[x]$ we may factor $f(x)$ as
+_Proof._ The reverse implication is immediate: if $`f \in A[x]`$ then certainly $`\alpha`$ is integral over $`A`$. For the forward implication, suppose $`\alpha`$ is integral over $`A`$ and let $`g \in A[x]`$ be a monic polynomial for which $`g(\alpha) = 0`$. In $`\overline{K}[x]`$ we may factor $`f(x)`$ as
 
-$$f(x) = \prod_i (x - \alpha_i).$$
+$$`f(x) = \prod_i (x - \alpha_i).`$$
 
-For each $\alpha_i$ we have a field embedding $K(\alpha) \to \overline{K}$ that sends $\alpha$ to $\alpha_i$ and fixes $K$. As elements of $\overline{K}$ we have $g(\alpha_i) = 0$ (since $f(\alpha_i) = 0$ and $f$ must divide $g$), so each $\alpha_i \in \overline{K}$ is integral over $A$ and lies in the integral closure $\tilde{A}$ of $A$ in $\overline{K}$. Each coefficient of $f \in K[x]$ can be expressed as a sum of products of the $\alpha_i$, and is therefore an element of the ring $\tilde{A}$ that also lies in $K$. But $A = \tilde{A} \cap K$, since $A$ is integrally closed in its fraction field $K$. $\square$
+For each $`\alpha_i`$ we have a field embedding $`K(\alpha) \to \overline{K}`$ that sends $`\alpha`$ to $`\alpha_i`$ and fixes $`K`$. As elements of $`\overline{K}`$ we have $`g(\alpha_i) = 0`$ (since $`f(\alpha_i) = 0`$ and $`f`$ must divide $`g`$), so each $`\alpha_i \in \overline{K}`$ is integral over $`A`$ and lies in the integral closure $`\tilde{A}`$ of $`A`$ in $`\overline{K}`$. Each coefficient of $`f \in K[x]`$ can be expressed as a sum of products of the $`\alpha_i`$, and is therefore an element of the ring $`\tilde{A}`$ that also lies in $`K`$. But $`A = \tilde{A} \cap K`$, since $`A`$ is integrally closed in its fraction field $`K`$. $`\square`$
 
 ```lean
 /-- Proposition 1.28: For an integrally closed domain A with fraction field K,
@@ -95,7 +95,7 @@ theorem integral_iff_minpoly_over_base
 number := false
 %%%
 
-We saw in Example 1.24 that $(1 + \sqrt{5})/2$ is integral over $\mathbb{Z}$. Now consider $\alpha = (1 + \sqrt{7})/2$. Its minimal polynomial $x^2 - x - 3/2 \notin \mathbb{Z}[x]$, so $\alpha$ is not integral over $\mathbb{Z}$.
+_Example 1.29._ We saw in Example 1.24 that $`(1 + \sqrt{5})/2`$ is integral over $`\mathbb{Z}`$. Now consider $`\alpha = (1 + \sqrt{7})/2`$. Its minimal polynomial $`x^2 - x - 3/2 \notin \mathbb{Z}[x]`$, so $`\alpha`$ is not integral over $`\mathbb{Z}`$.
 
 ```lean
 /-- The element α = (1 + √7)/2 satisfies α² - α - 3/2 = 0. Since the minimal
