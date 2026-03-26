@@ -1,6 +1,7 @@
 import VersoManual
 
 import SutherlandNumberTheory.Lecture1
+import SutherlandNumberTheory.Lecture2
 
 open Verso.Genre Manual
 
@@ -23,5 +24,10 @@ and are available under the [Apache 2.0](https://www.apache.org/licenses/LICENSE
 The formalization source is
 [FormalFrontier/Sutherland-NumberTheory-Lecture1-draft2](https://github.com/FormalFrontier/Sutherland-NumberTheory-Lecture1-draft2),
 synced to commit `59bed456ddb1c2fcdd9db9a62280b8e7a7cc6242`.
+The Lecture 2 formalization source is
+[FormalFrontier/Sutherland-NumberTheory-Lecture2-draft1](https://github.com/FormalFrontier/Sutherland-NumberTheory-Lecture2-draft1),
+synced to commit `ad828e6e1ecec0e803d0e99e51031ac7ca2129f0`.
 
 {include 0 SutherlandNumberTheory.Lecture1}
+
+{include 0 SutherlandNumberTheory.Lecture2}
