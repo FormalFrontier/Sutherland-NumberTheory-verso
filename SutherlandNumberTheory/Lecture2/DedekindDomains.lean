@@ -1,5 +1,16 @@
 import VersoManual
-import Mathlib
+import Mathlib.Tactic.Recall
+import Mathlib.RingTheory.DedekindDomain.Basic
+import Mathlib.RingTheory.DedekindDomain.Dvr
+import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
+import Mathlib.RingTheory.IntegralClosure.IsIntegralClosure.Basic
+import Mathlib.RingTheory.UniqueFactorizationDomain.Basic
+import Mathlib.NumberTheory.Zsqrtd.Basic
+import Mathlib.Algebra.Polynomial.FieldDivision
+import Mathlib.RingTheory.Polynomial.Quotient
+import Mathlib.RingTheory.DedekindDomain.PID
+import Mathlib.NumberTheory.NumberField.Basic
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -167,7 +178,7 @@ section DedekindDomain
 
 /-! ### The definition
 
-**Definition 2.10.** A Dedekind domain is a
+_Definition 2.10._ A Dedekind domain is a
 noetherian, integrally closed domain
 of Krull dimension ≤ 1. This is Mathlib's
 `IsDedekindDomain`. -/

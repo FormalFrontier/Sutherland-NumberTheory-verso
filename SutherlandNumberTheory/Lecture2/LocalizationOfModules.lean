@@ -1,5 +1,20 @@
 import VersoManual
-import Mathlib
+import Mathlib.Tactic.Recall
+import Mathlib.RingTheory.Localization.AtPrime.Basic
+import Mathlib.RingTheory.Localization.Module
+import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.DedekindDomain.Basic
+import Mathlib.RingTheory.DedekindDomain.Dvr
+import Mathlib.RingTheory.DiscreteValuationRing.Basic
+import Mathlib.RingTheory.LocalRing.Basic
+import Mathlib.RingTheory.LocalRing.ResidueField.Basic
+import Mathlib.RingTheory.Localization.Submodule
+import Mathlib.Algebra.Polynomial.Eval.SMul
+import Mathlib.Algebra.Polynomial.FieldDivision
+import Mathlib.RingTheory.Polynomial.Quotient
+import Mathlib.NumberTheory.Padics.PadicVal.Basic
+import Mathlib.Data.ZMod.QuotientRing
+import Mathlib.RingTheory.Ideal.NatInt
 import SutherlandNumberTheory.Lecture2.Localization
 
 open Verso.Genre Manual

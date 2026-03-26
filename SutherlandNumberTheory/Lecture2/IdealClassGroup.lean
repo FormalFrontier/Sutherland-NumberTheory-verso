@@ -1,5 +1,12 @@
 import VersoManual
-import Mathlib
+import Mathlib.Tactic.Recall
+import Mathlib.RingTheory.ClassGroup
+import Mathlib.RingTheory.DedekindDomain.Ideal.Basic
+import Mathlib.RingTheory.FractionalIdeal.Basic
+import Mathlib.RingTheory.FractionalIdeal.Operations
+import Mathlib.RingTheory.Localization.FractionRing
+import Mathlib.RingTheory.DedekindDomain.PID
+import Mathlib.RingTheory.PicardGroup
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -38,7 +45,7 @@ variable {K : Type*} [Field K] [Algebra A K]
 
 /-! ### The definition
 
-**Definition 2.22.** The ideal group ℐ_A is the
+_Definition 2.22._ The ideal group ℐ_A is the
 group of invertible fractional ideals. In Mathlib
 this is the unit group of `FractionalIdeal`. -/
 
@@ -172,7 +179,7 @@ open scoped nonZeroDivisors
 
 /-! ### The definition
 
-**Definition 2.23.** The ideal class group
+_Definition 2.23._ The ideal class group
 cl(A) = ℐ_A / 𝒫_A. In Mathlib this is
 `ClassGroup`. -/
 
