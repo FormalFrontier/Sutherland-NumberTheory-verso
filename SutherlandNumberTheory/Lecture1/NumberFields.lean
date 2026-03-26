@@ -61,6 +61,40 @@ recall NumberField.RingOfIntegers.rank
     Module.finrank ℤ
       (NumberField.RingOfIntegers K) =
     Module.finrank ℚ K
+
+/-- Remark 1.27: An order in a number field K is a
+subring that is a free ℤ-module of rank [K : ℚ]. -/
+structure NumberField.Order (K : Type*)
+    [Field K] [NumberField K] where
+  /-- The underlying subring of K. -/
+  carrier : Subring K
+  /-- The subring is a free ℤ-module. -/
+  free : Module.Free ℤ carrier
+  /-- The ℤ-rank equals [K : ℚ]. -/
+  rank_eq :
+    Module.finrank ℤ carrier =
+      Module.finrank ℚ K
+
+/-- Remark 1.27: 𝓞 K is the maximal order: every
+order in K is contained in 𝓞 K. -/
+theorem NumberField.Order.le_ringOfIntegers
+    {K : Type*} [Field K] [NumberField K]
+    (O : NumberField.Order K) (x : K)
+    (hx : x ∈ O.carrier) :
+    x ∈ (algebraMap
+      (NumberField.RingOfIntegers K) K).range
+    := by
+  haveI := O.free
+  have hfin : Module.Finite ℤ O.carrier :=
+    Module.finite_of_finrank_pos
+      (O.rank_eq ▸ Module.finrank_pos
+        (R := ℚ) (M := K))
+  have hint : IsIntegral ℤ
+      (⟨x, hx⟩ : O.carrier) :=
+    IsIntegral.of_finite ℤ _
+  rw [RingHom.mem_range]
+  exact IsIntegralClosure.isIntegral_iff.mp
+    (hint.algebraMap (R := ℤ))
 ```
 
 # Proposition 1.28

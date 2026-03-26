@@ -17,6 +17,9 @@ import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 import Mathlib.RingTheory.PowerSeries.Inverse
 import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.Valuation.Discrete.Basic
+import Mathlib.Algebra.GroupWithZero.Range
+import Mathlib.RingTheory.PowerSeries.Order
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -55,6 +58,29 @@ recall AddValuation (R : Type*) [Ring R]
     [LinearOrderedAddCommMonoidWithTop Γ₀] :
     Type _
 
+/-- Definition 1.10: A valuation v : R → Γ₀ in the
+multiplicative convention. -/
+recall Valuation (R : Type*) (Γ₀ : Type*)
+    [LinearOrderedCommMonoidWithZero Γ₀]
+    [Ring R] : Type _
+
+/-- Definition 1.10: The value group of a
+valuation. -/
+recall MonoidWithZeroHom.valueGroup
+    {A : Type*} {B : Type*} {F : Type*}
+    [FunLike F A B] (f : F) [MonoidWithZero A]
+    [MonoidWithZero B]
+    [MonoidWithZeroHomClass F A B] :
+    Subgroup Bˣ
+
+/-- Definition 1.10: A discrete valuation has a
+cyclic nontrivial value group. -/
+example (R : Type*) (Γ₀ : Type*)
+    [CommRing R] [LinearOrderedCommGroupWithZero Γ₀]
+    (v : Valuation R Γ₀)
+    [Valuation.IsRankOneDiscrete v] :
+    True := trivial
+
 /-- Definition 1.10 (DVR). A discrete valuation ring
 is an integral domain that is a local PID and not a
 field. -/
@@ -65,6 +91,11 @@ recall IsDiscreteValuationRing (R : Type*)
 in Frac(A), either x ∈ A or x⁻¹ ∈ A. -/
 recall ValuationRing (A : Type*)
     [CommRing A] [IsDomain A] : Prop
+
+/-- Definition 1.10: A DVR cannot be a field. -/
+recall IsDiscreteValuationRing.not_isField
+    {R : Type*} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] : ¬IsField R
 ```
 
 # Valuation ring structure
@@ -77,6 +108,41 @@ It is easy to verify that every valuation ring $`A` is a in fact a ring, and eve
 $$`A^{\times} = \{x \in k : v(x) = 0\},`
 
 We can partition the nonzero elements of $`k` according to the sign of their valuation. Elements with valuation zero are units in $`A`, elements with positive valuation are non-units in $`A`, and elements with negative valuation do not lie in $`A`, but their multiplicative inverses are non-units in $`A`. This leads to a more general notion of a valuation ring.
+
+```lean
+/-- v(x⁻¹) = -v(x) for an additive valuation on a
+field. -/
+recall AddValuation.map_inv
+    {K : Type*} [DivisionRing K]
+    {Γ₀ : Type*}
+    [LinearOrderedAddCommGroupWithTop Γ₀]
+    (v : AddValuation K Γ₀) {x : K} :
+    v x⁻¹ = -(v x)
+
+/-- x ∈ A is a unit iff v(x) = 1 (multiplicative
+convention; i.e. v(x) = 0 additively). -/
+recall Valuation.Integers.isUnit_iff_valuation_eq_one
+    {F : Type*} {Γ₀ : Type*}
+    [Field F]
+    [LinearOrderedCommGroupWithZero Γ₀]
+    {v : Valuation F Γ₀} {O : Type*}
+    [CommRing O] [Algebra O F]
+    (hv : Valuation.Integers v O)
+    {x : O} :
+    IsUnit x ↔ v (algebraMap O F x) = 1
+
+/-- The nonzero elements of a valued field partition
+into three classes by the sign of their valuation. -/
+theorem valuation_trichotomy
+    {K : Type*} [Field K] {Γ₀ : Type*}
+    [LinearOrderedCommGroupWithZero Γ₀]
+    (v : Valuation K Γ₀) (x : K) :
+    v x = 1 ∨ v x < 1 ∨ 1 < v x := by
+  rcases lt_trichotomy (v x) 1 with h | h | h
+  · exact .inr (.inl h)
+  · exact .inl h
+  · exact .inr (.inr h)
+```
 
 # Definition 1.11
 %%%
@@ -109,6 +175,100 @@ for some integer $`n \geq 0`. Moreover, the ideal $`(\pi^n)` depends only on $`n
 $$`\mathfrak{m} = (\pi) = \{a \in A : v(a) > 0\}`
 
 is the unique maximal ideal of $`A` (and also the only nonzero prime ideal of $`A`).
+
+```lean
+variable {R : Type*} [CommRing R] [IsDomain R]
+  [IsDiscreteValuationRing R] in
+/-- An irreducible element of a DVR generates the
+maximal ideal (uniformizer characterization). -/
+example (ϖ : R) :
+    Irreducible ϖ ↔
+      IsLocalRing.maximalIdeal R =
+        Ideal.span {ϖ} :=
+  IsDiscreteValuationRing.irreducible_iff_uniformizer
+    ϖ
+
+/-- Uniformizers (irreducible elements) exist in a
+DVR. -/
+recall IsDiscreteValuationRing.exists_irreducible
+    {R : Type*} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] :
+    ∃ ϖ : R, Irreducible ϖ
+
+/-- Every nonzero element is associated to a power
+of the uniformizer. -/
+recall
+  IsDiscreteValuationRing.associated_pow_irreducible
+    {R : Type*} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R]
+    {a : R} (ha : a ≠ 0) {ϖ : R}
+    (hirr : Irreducible ϖ) :
+    ∃ n : ℕ, Associated a (ϖ ^ n)
+
+/-- The additive valuation of a DVR. -/
+recall IsDiscreteValuationRing.addVal
+    (R : Type*) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] :
+    AddValuation R ℕ∞
+
+variable {R : Type*} [CommRing R] [IsDomain R]
+  [IsDiscreteValuationRing R] in
+/-- A DVR is a principal ideal ring. -/
+example : IsPrincipalIdealRing R := inferInstance
+
+variable {R : Type*} [CommRing R] [IsDomain R]
+  [IsDiscreteValuationRing R] in
+/-- A DVR is a unique factorization domain. -/
+example : UniqueFactorizationMonoid R :=
+  inferInstance
+
+/-- Every nonzero ideal of a DVR is generated by a
+power of the uniformizer. -/
+recall
+  IsDiscreteValuationRing.ideal_eq_span_pow_irreducible
+    {R : Type*} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R]
+    {s : Ideal R} (hs : s ≠ ⊥) {ϖ : R}
+    (hirr : Irreducible ϖ) :
+    ∃ n : ℕ, s = Ideal.span {ϖ ^ n}
+
+variable {R : Type*} [CommRing R] [IsDomain R]
+  [IsDiscreteValuationRing R] in
+/-- The ideals of a DVR are totally ordered. -/
+example (I J : Ideal R) : I ≤ J ∨ J ≤ I :=
+  (ValuationRing.le_total_ideal (A := R)).total
+    I J
+
+variable {R : Type*} [CommRing R] [IsDomain R]
+  [IsDiscreteValuationRing R] in
+/-- The maximal ideal of a DVR is generated by any
+uniformizer. -/
+theorem maximalIdeal_eq_span_uniformizer
+    (ϖ : R) (hirr : Irreducible ϖ) :
+    IsLocalRing.maximalIdeal R =
+      Ideal.span {ϖ} :=
+  (IsDiscreteValuationRing.irreducible_iff_uniformizer
+    ϖ).mp hirr
+
+/-- A DVR is a PID with exactly one nonzero prime
+ideal. -/
+recall
+  IsDiscreteValuationRing.iff_pid_with_one_nonzero_prime
+    (R : Type u) [CommRing R] [IsDomain R] :
+    IsDiscreteValuationRing R ↔
+      IsPrincipalIdealRing R ∧
+        ∃! P : Ideal R, P ≠ ⊥ ∧ P.IsPrime
+
+/-- Any two irreducible elements of a DVR are
+associated (differ by a unit). -/
+recall
+  IsDiscreteValuationRing.associated_of_irreducible
+    {R : Type*} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R]
+    {a b : R} (ha : Irreducible a)
+    (hb : Irreducible b) :
+    Associated a b
+```
 
 # Definition 1.12
 %%%
@@ -144,6 +304,69 @@ number := false
 We can now see how to determine the valuation $`v` corresponding to a discrete valuation ring $`A`. Given a discrete valuation ring $`A` with unique maximal ideal $`\mathfrak{m}`, we may define $`v \colon A \to \mathbb{Z}` by letting $`v(a)` be the unique integer $`n` for which $`(a) = \mathfrak{m}^n` and $`v(0) \coloneqq \infty`. Extending $`v` to the fraction field $`k` of $`A` via $`v(a/b) \coloneqq v(a) - v(b)` gives a discrete valuation $`v` on $`k` for which $`A = \{x \in k : v(x) \geq 0\}` is the corresponding valuation ring.
 
 Notice that any discrete valuation $`v` on $`k` with $`A` as its valuation ring must satisfy $`v(\pi) = 1` for some $`\pi \in \mathfrak{m}` (otherwise $`v(k) \neq \mathbb{Z}`), and we then have $`v(\pi) = 1` if and only if $`\mathfrak{m} = (\pi)`. Moreover, $`v` must then coincide with the discrete valuation we just defined: for any DVR $`A`, the discrete valuation on the fraction field of $`A` that yields $`A` as its valuation ring is uniquely determined. It follows that we could have defined a uniformizer to be any generator of the maximal ideal of $`A` without reference to a valuation.
+
+```lean
+/-- The maximal ideal of a DVR, viewed as a
+height-one prime. -/
+recall IsDiscreteValuationRing.maximalIdeal
+    (A : Type*) [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A] :
+    IsDedekindDomain.HeightOneSpectrum A
+
+/-- A DVR is isomorphic to the valuation subring of
+its fraction field under the adic valuation. -/
+recall
+  IsDiscreteValuationRing.equivValuationSubring
+    (A : Type*) (K : Type*)
+    [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A]
+    [Field K] [Algebra A K]
+    [IsFractionRing A K] :
+    A ≃+*
+      ((IsDiscreteValuationRing.maximalIdeal
+        A).valuation K).valuationSubring
+
+/-- The adic valuation on the fraction field of a
+DVR is rank-one discrete. -/
+recall
+  IsDiscreteValuationRing.isRankOneDiscrete
+    (A : Type*) (K : Type*)
+    [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A]
+    [Field K] [Algebra A K]
+    [IsFractionRing A K] :
+    Valuation.IsRankOneDiscrete
+      ((IsDiscreteValuationRing.maximalIdeal
+        A).valuation K)
+
+/-- A generator of the maximal ideal is a
+uniformizer. -/
+recall
+  Valuation.isUniformizer_of_maximalIdeal_eq_span
+    {Γ : Type*}
+    [LinearOrderedCommGroupWithZero Γ]
+    {K : Type*} [Field K]
+    (v : Valuation K Γ)
+    [v.IsRankOneDiscrete]
+    {r : v.valuationSubring}
+    (hr : IsLocalRing.maximalIdeal
+        v.valuationSubring =
+      Ideal.span {r}) :
+    v.IsUniformizer r
+
+/-- A uniformizer generates the maximal ideal. -/
+recall Valuation.IsUniformizer.is_generator
+    {Γ : Type*}
+    [LinearOrderedCommGroupWithZero Γ]
+    {K : Type*} [Field K]
+    {v : Valuation K Γ}
+    [hv : v.IsRankOneDiscrete]
+    {π : v.valuationSubring}
+    (hπ : v.IsUniformizer π) :
+    IsLocalRing.maximalIdeal
+        v.valuationSubring =
+      Ideal.span {π}
+```
 
 # Example 1.14
 %%%
@@ -222,6 +445,30 @@ theorem laurentSeries_valuation_ring
     (k : Type*) [Field k] :
     ValuationRing k⟦X⟧ :=
   inferInstance
+
+open PowerSeries in
+/-- The order of a power series: the greatest n
+such that X^n divides φ. -/
+recall PowerSeries.order (R : Type*)
+    [Semiring R] (φ : PowerSeries R) : ℕ∞
+
+open PowerSeries in
+/-- Order is an additive valuation:
+order(φ * ψ) = order(φ) + order(ψ). -/
+recall PowerSeries.order_mul (R : Type*)
+    [Semiring R] [NoZeroDivisors R]
+    (φ ψ : PowerSeries R) :
+    PowerSeries.order (φ * ψ) =
+      PowerSeries.order φ +
+        PowerSeries.order ψ
+
+open PowerSeries in
+/-- The order equals the multiplicity of X. -/
+recall PowerSeries.order_eq_emultiplicity_X
+    (R : Type*) [Semiring R]
+    (φ : PowerSeries R) :
+    PowerSeries.order φ =
+      emultiplicity PowerSeries.X φ
 ```
 
 # Properties of DVRs

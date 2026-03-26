@@ -20,4 +20,8 @@ used with the author's coordination, under the
 The Lean formalizations were produced by [FormalFrontier](https://github.com/FormalFrontier)
 and are available under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license.
 
+The formalization source is
+[FormalFrontier/Sutherland-NumberTheory-Lecture1-draft2](https://github.com/FormalFrontier/Sutherland-NumberTheory-Lecture1-draft2),
+synced to commit `8b41040af45ebe15e2f1a709205608d906b28175`.
+
 {include 0 SutherlandNumberTheory.Lecture1}
