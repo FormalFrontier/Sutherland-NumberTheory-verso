@@ -22,6 +22,6 @@ and are available under the [Apache 2.0](https://www.apache.org/licenses/LICENSE
 
 The formalization source is
 [FormalFrontier/Sutherland-NumberTheory-Lecture1-draft2](https://github.com/FormalFrontier/Sutherland-NumberTheory-Lecture1-draft2),
-synced to commit `8b41040af45ebe15e2f1a709205608d906b28175`.
+synced to commit `59bed456ddb1c2fcdd9db9a62280b8e7a7cc6242`.
 
 {include 0 SutherlandNumberTheory.Lecture1}

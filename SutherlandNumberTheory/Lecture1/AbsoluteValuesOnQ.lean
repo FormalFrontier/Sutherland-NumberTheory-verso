@@ -3,6 +3,7 @@ import Mathlib.Tactic.Recall
 import Mathlib.NumberTheory.Padics.PadicVal.Basic
 import Mathlib.NumberTheory.Padics.PadicNorm
 import Mathlib.NumberTheory.Ostrowski
+import SutherlandNumberTheory.Lecture1.AbsoluteValues
 import Mathlib.NumberTheory.NumberField.ProductFormula
 import Mathlib.Data.Nat.Factorization.Basic
 import Mathlib.Algebra.BigOperators.Finprod
@@ -71,6 +72,20 @@ recall Rat.AbsoluteValue.equiv_real_or_padic
     f.IsEquiv Rat.AbsoluteValue.real ∨
     ∃! p : ℕ, ∃ _ : Fact p.Prime,
       f.IsEquiv (Rat.AbsoluteValue.padic p)
+
+/-- Theorem 1.8 restated using the book's
+Definition 1.6 (`AreEquivalent`). -/
+theorem Rat.AbsoluteValue.areEquivalent_real_or_padic
+    (f : AbsoluteValue ℚ ℝ)
+    (hf : f.IsNontrivial) :
+    f.AreEquivalent Rat.AbsoluteValue.real ∨
+    ∃! p : ℕ, ∃ _ : Fact p.Prime,
+      f.AreEquivalent
+        (Rat.AbsoluteValue.padic p) := by
+  simp only [
+    AbsoluteValue.areEquivalent_iff_isEquiv]
+  exact Rat.AbsoluteValue.equiv_real_or_padic
+    f hf
 ```
 
 # Theorem 1.9 (Product Formula)

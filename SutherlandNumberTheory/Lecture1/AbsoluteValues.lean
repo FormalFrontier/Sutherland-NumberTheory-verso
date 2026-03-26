@@ -10,6 +10,7 @@ import Mathlib.Algebra.CharP.Basic
 import Mathlib.Algebra.CharP.Lemmas
 import Mathlib.FieldTheory.Finite.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.AbsoluteValue.Equivalence
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -187,10 +188,33 @@ number := false
 _Definition 1.6._ Two absolute values $`\lvert \cdot \rvert` and $`\lvert \cdot \rvert'` on the same field $`k` are _equivalent_ if there exists an $`\alpha \in \mathbb{R}_{>0}` for which $`\lvert x \rvert' = \lvert x \rvert^{\alpha}` for all $`x \in k`.
 
 ```lean
+open AbsoluteValue in
 /-- Definition 1.6: Two absolute values on k are
 equivalent if one is a positive real power of the
 other. -/
 def AbsoluteValue.AreEquivalent {k : Type*} [Field k]
     (f g : AbsoluteValue k ℝ) : Prop :=
   ∃ α : ℝ, 0 < α ∧ ∀ x : k, g x = (f x) ^ α
+
+namespace AbsoluteValue
+
+variable {k : Type*} [Field k]
+  {f g : AbsoluteValue k ℝ}
+
+/-- The book's power-law equivalence (Definition 1.6)
+is equivalent to Mathlib's order-preserving equivalence
+(`IsEquiv`). -/
+theorem areEquivalent_iff_isEquiv :
+    f.AreEquivalent g ↔ f.IsEquiv g := by
+  constructor
+  · rintro ⟨α, hα, hfg⟩
+    rw [isEquiv_iff_exists_rpow_eq]
+    exact ⟨α, hα, funext fun x => (hfg x).symm⟩
+  · intro h
+    rw [isEquiv_iff_exists_rpow_eq] at h
+    obtain ⟨c, hc, hcfg⟩ := h
+    exact ⟨c, hc,
+      fun x => (congr_fun hcfg x).symm⟩
+
+end AbsoluteValue
 ```
