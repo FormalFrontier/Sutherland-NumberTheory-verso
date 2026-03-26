@@ -1,12 +1,6 @@
 import VersoManual
 import Mathlib.Tactic.Recall
-import Mathlib.RingTheory.Localization.Basic
-import Mathlib.RingTheory.Localization.FractionRing
-import Mathlib.RingTheory.Localization.AtPrime.Basic
 import Mathlib.RingTheory.Localization.Ideal
-import Mathlib.RingTheory.PrincipalIdealDomain
-import Mathlib.RingTheory.DedekindDomain.Basic
-import Mathlib.RingTheory.DedekindDomain.Dvr
 import Mathlib.RingTheory.DedekindDomain.PID
 import Mathlib.RingTheory.Ideal.NatInt
 

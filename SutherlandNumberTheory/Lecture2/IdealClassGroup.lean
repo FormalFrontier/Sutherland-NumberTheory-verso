@@ -1,10 +1,6 @@
 import VersoManual
 import Mathlib.Tactic.Recall
 import Mathlib.RingTheory.ClassGroup
-import Mathlib.RingTheory.DedekindDomain.Ideal.Basic
-import Mathlib.RingTheory.FractionalIdeal.Basic
-import Mathlib.RingTheory.FractionalIdeal.Operations
-import Mathlib.RingTheory.Localization.FractionRing
 import Mathlib.RingTheory.DedekindDomain.PID
 import Mathlib.RingTheory.PicardGroup
 

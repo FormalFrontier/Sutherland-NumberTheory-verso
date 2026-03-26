@@ -1,16 +1,9 @@
 import VersoManual
 import Mathlib.Tactic.Recall
-import Mathlib.RingTheory.DedekindDomain.Basic
-import Mathlib.RingTheory.DedekindDomain.Dvr
-import Mathlib.RingTheory.PrincipalIdealDomain
-import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-import Mathlib.RingTheory.IntegralClosure.IsIntegralClosure.Basic
-import Mathlib.RingTheory.UniqueFactorizationDomain.Basic
-import Mathlib.NumberTheory.Zsqrtd.Basic
-import Mathlib.Algebra.Polynomial.FieldDivision
-import Mathlib.RingTheory.Polynomial.Quotient
 import Mathlib.RingTheory.DedekindDomain.PID
-import Mathlib.NumberTheory.NumberField.Basic
+import Mathlib.RingTheory.DedekindDomain.IntegralClosure
+import Mathlib.NumberTheory.Zsqrtd.Basic
+import Mathlib.RingTheory.Polynomial.Quotient
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean

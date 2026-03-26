@@ -1,10 +1,7 @@
 import VersoManual
 import Mathlib.Tactic.Recall
 import Mathlib.RingTheory.DedekindDomain.Ideal.Basic
-import Mathlib.RingTheory.FractionalIdeal.Basic
 import Mathlib.RingTheory.FractionalIdeal.Operations
-import Mathlib.RingTheory.Localization.FractionRing
-import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.NumberTheory.Zsqrtd.GaussianInt
 import Mathlib.NumberTheory.NumberField.Basic
 
