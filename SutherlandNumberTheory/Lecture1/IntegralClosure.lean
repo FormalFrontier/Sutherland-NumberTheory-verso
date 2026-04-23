@@ -13,6 +13,8 @@ import Mathlib.RingTheory.UniqueFactorizationDomain.Basic
 import Mathlib.RingTheory.UniqueFactorizationDomain.GCDMonoid
 import Mathlib.NumberTheory.Zsqrtd.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.RingTheory.Localization.Rat
+import Mathlib.RingTheory.Polynomial.RationalRoot
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -170,6 +172,49 @@ thus $`r^n = -s(a_{n-1} r^{n-1} + \cdots a_1 s^{n-2} r + a_0 s^{n-1})` is a mult
 ```lean
 /-- Proposition 1.22: ℤ is integrally closed. -/
 example : IsIntegrallyClosed ℤ := inferInstance
+
+/-! The book's proof is the rational root test. We
+record the argument as a chain of Lean statements:
+a rational integral over `ℤ` is in the localization
+image, its denominator is therefore `1`, and so it
+equals its numerator cast into `ℚ`. -/
+
+/-- Rational-root step (i): a rational number integral
+over `ℤ` is an integer in the sense of
+`IsLocalization.IsInteger`. -/
+theorem sutherland_rat_isInteger_of_isIntegral
+    (q : ℚ) (hq : IsIntegral ℤ q) :
+    IsLocalization.IsInteger ℤ q := by
+  rcases hq with ⟨p, hp, hroot⟩
+  exact isInteger_of_is_root_of_monic hp hroot
+
+/-- Rational-root step (ii): the denominator of a
+rational integral over `ℤ` is `1`. Since `q.num`
+and `q.den` are coprime in Mathlib's reduced form,
+this is the "s = ±1" conclusion of the book's
+proof. -/
+theorem sutherland_rat_den_eq_one_of_isIntegral
+    (q : ℚ) (hq : IsIntegral ℤ q) : q.den = 1 := by
+  rcases (Rat.isLocalizationIsInteger_iff q).mp
+      (sutherland_rat_isInteger_of_isIntegral q hq)
+    with ⟨z, rfl⟩
+  simp
+
+/-- Rational-root step (iii): a rational integral over
+`ℤ` equals its own numerator as a rational. -/
+theorem sutherland_rat_num_eq_of_isIntegral
+    (q : ℚ) (hq : IsIntegral ℤ q) :
+    (q.num : ℚ) = q := by
+  simpa using (Rat.den_eq_one_iff q).mp
+    (sutherland_rat_den_eq_one_of_isIntegral q hq)
+
+/-- Rational-root conclusion: a rational integral over
+`ℤ` is an integer. This is the full content of
+Proposition 1.22. -/
+theorem sutherland_rat_exists_int_of_isIntegral
+    (q : ℚ) (hq : IsIntegral ℤ q) :
+    ∃ z : ℤ, (z : ℚ) = q :=
+  ⟨q.num, sutherland_rat_num_eq_of_isIntegral q hq⟩
 ```
 
 # Corollary 1.23
