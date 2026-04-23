@@ -508,8 +508,7 @@ theorem padicValuationRing_maximalIdeal_eq_span_p
     (IsLocalization.AtPrime.map_eq_maximalIdeal
       (p := Ideal.span ({(p : ℤ)} : Set ℤ))
       (Rₚ := padicValuationRing p)).symm
-  rw [h, Ideal.map_span]
-  simp
+  simp [h, Ideal.map_span]
 ```
 
 # Example 1.15
