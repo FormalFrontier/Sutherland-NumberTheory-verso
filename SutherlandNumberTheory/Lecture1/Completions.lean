@@ -183,10 +183,23 @@ number := false
 
 _Definition 1.11._ A _valuation ring_ is an integral domain $`A` with fraction field $`k` with the property that for every $`x \in k`, either $`x \in A` or $`x^{-1} \in A`.
 
+Mathlib's `ValuationRing` is defined via a universal-statement on the ring itself; the bridging theorem `ValuationRing.iff_isInteger_or_isInteger` restates it in the fraction-field form that matches the book's definition.
+
 ```lean
 /-- Definition 1.11: A valuation ring. -/
 recall ValuationRing (A : Type*)
     [CommRing A] [IsDomain A] : Prop
+
+/-- Definition 1.11 (book form): a domain is a
+valuation ring iff every element of its fraction
+field or its inverse is in the image of the domain. -/
+recall ValuationRing.iff_isInteger_or_isInteger
+    (R : Type*) [CommRing R] [IsDomain R]
+    (K : Type*) [Field K] [Algebra R K]
+    [IsFractionRing R K] :
+    ValuationRing R ↔ ∀ x : K,
+      IsLocalization.IsInteger R x ∨
+        IsLocalization.IsInteger R x⁻¹
 ```
 
 # Uniformizers and ideals
@@ -313,6 +326,15 @@ _Definition 1.12._ A _local ring_ is a commutative ring with a unique maximal id
 /-- Definition 1.12: A local ring has a unique maximal
 ideal. -/
 recall IsLocalRing (R : Type*) [Semiring R] : Prop
+
+/-- The distinguished maximal ideal of a local ring. -/
+recall IsLocalRing.maximalIdeal (R : Type*)
+    [CommSemiring R] [IsLocalRing R] : Ideal R
+
+/-- The maximal ideal is indeed maximal. -/
+recall IsLocalRing.maximalIdeal.isMaximal
+    (R : Type*) [CommSemiring R] [IsLocalRing R] :
+    (IsLocalRing.maximalIdeal R).IsMaximal
 ```
 
 # Definition 1.13
