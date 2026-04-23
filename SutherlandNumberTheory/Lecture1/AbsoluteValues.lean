@@ -109,7 +109,10 @@ _Proof._ See Problem Set 1. $`\square`
 
 ```lean
 /-- Lemma 1.4: An absolute value on a field is
-nonarchimedean iff |n| ≤ 1 for all n : ℕ. -/
+nonarchimedean iff |n| ≤ 1 for all n : ℕ. The `n = 0`
+case is trivial since any absolute value sends `0` to
+`0`, so we state the Lean version over all `n : ℕ`
+rather than the book's `n ≥ 1`. -/
 theorem sutherland_lemma1_4 {k : Type*} [Field k]
     (f : AbsoluteValue k ℝ) :
     IsNonarchimedean (⇑f) ↔ ∀ n : ℕ, f n ≤ 1 := by
@@ -121,6 +124,17 @@ theorem sutherland_lemma1_4 {k : Type*} [Field k]
     haveI : IsUltrametricDist k :=
       IsUltrametricDist.isUltrametricDist_of_forall_norm_natCast_le_one hbnd
     exact IsUltrametricDist.isNonarchimedean_norm
+
+/-- Lemma 1.4 restated in the book's original `n ≥ 1`
+form. -/
+theorem sutherland_lemma1_4_pos {k : Type*} [Field k]
+    (f : AbsoluteValue k ℝ) :
+    IsNonarchimedean (⇑f) ↔ ∀ n : ℕ, 0 < n → f n ≤ 1 := by
+  rw [sutherland_lemma1_4]
+  refine ⟨fun h n _ => h n, fun h n => ?_⟩
+  rcases Nat.eq_zero_or_pos n with hn | hn
+  · simp [hn]
+  · exact h n hn
 ```
 
 # Corollary 1.5
