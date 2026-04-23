@@ -292,6 +292,31 @@ theorem zsqrtd5_not_integrallyClosed :
     show (2 : Zsqrtd 5).im = (0 : ℤ) from rfl,
     mul_zero, zero_mul, add_zero] at hre
   omega
+
+/-- Since every unique factorization domain is
+integrally closed (Corollary 1.23), `ℤ[√5]` is not a
+UFD. -/
+theorem sutherland_zsqrtd5_not_uniqueFactorizationMonoid :
+    ¬UniqueFactorizationMonoid (Zsqrtd 5) := by
+  intro _
+  haveI h5ns : Zsqrtd.Nonsquare (5 : ℕ) :=
+    ⟨fun n h => by
+      have hn : n ≤ 2 := by nlinarith
+      interval_cases n <;> omega⟩
+  haveI : IsDomain (ℤ√(5 : ℕ)) := inferInstance
+  exact zsqrtd5_not_integrallyClosed inferInstance
+
+/-- Since every principal ideal ring is integrally
+closed (Corollary 1.23), `ℤ[√5]` is not a PID. -/
+theorem sutherland_zsqrtd5_not_isPrincipalIdealRing :
+    ¬IsPrincipalIdealRing (Zsqrtd 5) := by
+  intro _
+  haveI h5ns : Zsqrtd.Nonsquare (5 : ℕ) :=
+    ⟨fun n h => by
+      have hn : n ≤ 2 := by nlinarith
+      interval_cases n <;> omega⟩
+  haveI : IsDomain (ℤ√(5 : ℕ)) := inferInstance
+  exact zsqrtd5_not_integrallyClosed inferInstance
 ```
 
 # Proposition 1.25
