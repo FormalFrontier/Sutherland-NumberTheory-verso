@@ -22,6 +22,10 @@ import Mathlib.Algebra.GroupWithZero.Range
 import Mathlib.RingTheory.PowerSeries.Order
 import Mathlib.RingTheory.LaurentSeries
 import Mathlib.Algebra.Polynomial.Reverse
+import Mathlib.RingTheory.DedekindDomain.AdicValuation
+import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+import Mathlib.FieldTheory.RatFunc.AsPolynomial
+import Mathlib.Algebra.Polynomial.RingDivision
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -604,6 +608,54 @@ example (k : Type*) [Field k]
         ∀ n : ℕ, n < d → coeff n f = 0 :=
   LaurentSeries.intValuation_le_iff_coeff_lt_eq_zero
     k f
+
+/-! ### Valuation at an arbitrary point
+
+The book notes that for every `α ∈ k` one can define
+an "order of vanishing at `α`" valuation on `k((t))`.
+We formalise this as follows: the linear polynomial
+`X - α ∈ k[X]` is irreducible, hence the ideal it
+spans is a height-one prime of the polynomial ring
+`k[X]`, which (via Mathlib's height-one-spectrum
+construction) induces a valuation on the rational
+function field `RatFunc k`. That valuation sends
+`X - α` itself to `exp(-1)`, the first nontrivial
+value, matching the "order of vanishing" intuition. -/
+
+/-- Example 1.15 (point version): for every `α : k`
+there is a valuation on `RatFunc k` whose value on
+`X - α` is `exp(-1)`, the order-of-vanishing-at-α
+analogue of the `t`-adic valuation. -/
+theorem sutherland_exists_orderOfVanishingAt_valuation
+    {k : Type*} [Field k] (α : k) :
+    ∃ v : Valuation (RatFunc k)
+        (WithZero (Multiplicative ℤ)),
+      v (RatFunc.X - RatFunc.C α) =
+        WithZero.exp (-1 : ℤ) := by
+  let P :
+      IsDedekindDomain.HeightOneSpectrum
+        (Polynomial k) :=
+    { asIdeal := Ideal.span
+        ({Polynomial.X - Polynomial.C α}
+          : Set (Polynomial k))
+      isPrime := by
+        exact (Ideal.span_singleton_prime
+          (Polynomial.X_sub_C_ne_zero α)).mpr
+            (Polynomial.irreducible_X_sub_C α).prime
+      ne_bot := Ideal.span_singleton_eq_bot.not.mpr
+        (Polynomial.X_sub_C_ne_zero α) }
+  have hne : Polynomial.X - Polynomial.C α ≠ 0 :=
+    Polynomial.X_sub_C_ne_zero α
+  have hspan : P.asIdeal = Ideal.span
+      ({Polynomial.X - Polynomial.C α}
+        : Set (Polynomial k)) := rfl
+  refine ⟨P.valuation (RatFunc k), ?_⟩
+  have hXC : RatFunc.X - RatFunc.C α =
+      algebraMap (Polynomial k) (RatFunc k)
+        (Polynomial.X - Polynomial.C α) := by
+    simp [RatFunc.algebraMap_X]
+  rw [hXC, P.valuation_of_algebraMap,
+    P.intValuation_singleton hne hspan]
 ```
 
 # Properties of DVRs
